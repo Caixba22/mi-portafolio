@@ -6,12 +6,14 @@ body,
   height: 100%;
   width: 100%;
   background-color: #0a0e15;
-  overflow: hidden;
+  overflow-x: hidden; /* ❌ no queremos scroll horizontal */
+  overflow-y: auto;   /* ✅ permite scroll vertical */
+  scroll-behavior: smooth; /* ✅ desplazamiento suave */
 }
 
 canvas {
   width: 100%;
   height: 100%;
   display: block;
-  touch-action: none; /* para evitar scroll accidental en móviles */
+  touch-action: none; /* evita scroll accidental en móviles */
 }

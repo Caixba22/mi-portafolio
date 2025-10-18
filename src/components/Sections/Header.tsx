@@ -18,18 +18,15 @@ export default function Header({
   const [lang, setLang] = useState<"es" | "en">(initialLang);
   const [theme, setTheme] = useState<"light" | "dark">(initialTheme);
 
-  // Aplica el tema al <html> para que puedas estilizar globalmente (.dark ...)
+  // 🌗 Aplica el tema globalmente
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    if (theme === "dark") root.classList.add("dark");
+    else root.classList.remove("dark");
     onThemeChange?.(theme);
   }, [theme, onThemeChange]);
 
-  // Notifica cambio de idioma (si lo necesitas arriba)
+  // 🌐 Notifica cambio de idioma
   useEffect(() => {
     onLanguageChange?.(lang);
   }, [lang, onLanguageChange]);
@@ -41,7 +38,6 @@ export default function Header({
             about: "Sobre mí",
             projects: "Proyectos",
             contact: "Contacto",
-            downloadCV: "Descargar CV",
             theme: "Tema",
             light: "Claro",
             dark: "Oscuro",
@@ -51,7 +47,6 @@ export default function Header({
             about: "About",
             projects: "Projects",
             contact: "Contact",
-            downloadCV: "Download CV",
             theme: "Theme",
             light: "Light",
             dark: "Dark",
@@ -60,7 +55,6 @@ export default function Header({
     [lang]
   );
 
-  // Estilos inline mínimos (si usas Tailwind puedes reemplazarlos)
   const styles = {
     bar: {
       position: "sticky" as const,
@@ -115,15 +109,9 @@ export default function Header({
       cursor: "pointer",
       minWidth: 42,
     },
-    mobileToggler: {
-      display: "none",
-    } as React.CSSProperties,
-    mobilePanel: {
-      display: "none",
-    } as React.CSSProperties,
   };
 
-  // Responsivo: muestra menú hamburguesa en pantallas pequeñas
+  // Responsivo: cerrar panel si se agranda ventana
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 900) setOpen(false);
@@ -144,7 +132,10 @@ export default function Header({
         {/* Menú escritorio */}
         <nav
           aria-label="main navigation"
-          style={{ ...styles.nav, display: window.innerWidth >= 900 ? "flex" : "none" }}
+          style={{
+            ...styles.nav,
+            display: window.innerWidth >= 900 ? "flex" : "none",
+          }}
         >
           <a href="#about" style={styles.link}>
             {labels.about}
@@ -156,18 +147,11 @@ export default function Header({
             {labels.contact}
           </a>
 
-          <a
-            href="/cv.pdf"
-            style={styles.btn}
-            download
-            rel="noopener"
-            aria-label={labels.downloadCV}
-          >
-            {labels.downloadCV}
-          </a>
-
           {/* Idioma */}
-          <div style={{ display: "flex", gap: 6, alignItems: "center" }} aria-label={labels.language}>
+          <div
+            style={{ display: "flex", gap: 6, alignItems: "center" }}
+            aria-label={labels.language}
+          >
             <button
               style={styles.iconBtn}
               onClick={() => setLang("es")}
@@ -190,8 +174,12 @@ export default function Header({
           <button
             style={styles.btn}
             onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-            aria-label={`${labels.theme}: ${theme === "dark" ? labels.dark : labels.light}`}
-            title={`${labels.theme}: ${theme === "dark" ? labels.dark : labels.light}`}
+            aria-label={`${labels.theme}: ${
+              theme === "dark" ? labels.dark : labels.light
+            }`}
+            title={`${labels.theme}: ${
+              theme === "dark" ? labels.dark : labels.light
+            }`}
           >
             {theme === "dark" ? "🌙" : "☀️"}
           </button>
@@ -199,10 +187,7 @@ export default function Header({
 
         {/* Toggler móvil */}
         <button
-          style={{
-            ...styles.iconBtn,
-            ...(window.innerWidth < 900 ? {} : styles.mobileToggler),
-          }}
+          style={styles.iconBtn}
           aria-label="Abrir menú"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -212,17 +197,18 @@ export default function Header({
       </div>
 
       {/* Panel móvil */}
-      <div
-        style={{
-          ...styles.mobilePanel,
-          display: window.innerWidth < 900 && open ? "block" : "none",
-          borderTop: "1px solid rgba(255,255,255,0.08)",
-          background: "rgba(10,14,21,0.95)",
-        }}
-        role="dialog"
-        aria-modal="true"
-      >
-        <div style={{ padding: "0.75rem 1rem", display: "grid", gap: "0.75rem" }}>
+      {open && (
+        <div
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(10,14,21,0.95)",
+            padding: "0.75rem 1rem",
+            display: "grid",
+            gap: "0.75rem",
+          }}
+          role="dialog"
+          aria-modal="true"
+        >
           <a href="#about" style={styles.link} onClick={() => setOpen(false)}>
             {labels.about}
           </a>
@@ -233,32 +219,32 @@ export default function Header({
             {labels.contact}
           </a>
 
-          <a
-            href="/cv.pdf"
-            style={styles.btn}
-            download
-            rel="noopener"
-            onClick={() => setOpen(false)}
-          >
-            {labels.downloadCV}
-          </a>
-
           <div style={{ display: "flex", gap: 8 }}>
-            <button style={styles.iconBtn} onClick={() => setLang("es")} aria-pressed={lang === "es"}>
+            <button
+              style={styles.iconBtn}
+              onClick={() => setLang("es")}
+              aria-pressed={lang === "es"}
+            >
               ES
             </button>
-            <button style={styles.iconBtn} onClick={() => setLang("en")} aria-pressed={lang === "en"}>
+            <button
+              style={styles.iconBtn}
+              onClick={() => setLang("en")}
+              aria-pressed={lang === "en"}
+            >
               EN
             </button>
             <button
               style={styles.iconBtn}
-              onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+              onClick={() =>
+                setTheme((t) => (t === "dark" ? "light" : "dark"))
+              }
             >
               {theme === "dark" ? "🌙" : "☀️"}
             </button>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 }
@@ -273,8 +259,21 @@ function Logo() {
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="3" y="3" width="18" height="18" rx="4" stroke="white" strokeOpacity="0.8" />
-      <path d="M7 14l3-4 3 3 4-6" stroke="#62D0FF" strokeWidth="2" fill="none" />
+      <rect
+        x="3"
+        y="3"
+        width="18"
+        height="18"
+        rx="4"
+        stroke="white"
+        strokeOpacity="0.8"
+      />
+      <path
+        d="M7 14l3-4 3 3 4-6"
+        stroke="#62D0FF"
+        strokeWidth="2"
+        fill="none"
+      />
     </svg>
   );
 }
