@@ -1,75 +1,41 @@
 // src/scenes/Experience.tsx
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { useThree } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
-import { PerspectiveCamera as ThreePerspectiveCamera, Group } from 'three'
+import { useRef } from 'react'
+import { Group } from 'three'
 import Podium from '../components/Podium'
 import Lights from './Lights'
-//import Background from '../components/Sections/Background'
-
+import { useResponsiveCamera } from '../hooks/useResponsiveCamera'
+import { useResponsiveModel } from '../hooks/useResponsiveModel'
+import Background from '../components/Sections/Background' // Fondo 3D o gradiente
 
 export default function Experience() {
-  const { camera, size } = useThree()
-  const podiumRef = useRef<Group>(null)
+  // 🔧 Referencia al modelo principal
+  const podiumRef = useRef<Group | null>(null)
 
-  useEffect(() => {
-    const cam = camera as ThreePerspectiveCamera
-    const aspect = size.width / size.height
-
-    // 🔧 Ajuste dinámico de cámara y FOV
-    if (size.width <= 480) {
-      // Móviles pequeños
-      cam.fov = 70
-      cam.position.set(0, 3.5, 13)
-    } else if (size.width <= 768) {
-      // Tablets
-      cam.fov = 60
-      cam.position.set(0, 3, 11)
-    } else if (aspect < 1.3) {
-      // Pantalla vertical o cuadrada
-      cam.fov = 55
-      cam.position.set(0, 2.5, 9)
-    } else if (aspect < 1.8) {
-      // Laptops o medianas
-      cam.fov = 50
-      cam.position.set(0, 2, 8)
-    } else {
-      // Monitores grandes o ultra-wide
-      cam.fov = 45
-      cam.position.set(0, 2, 7)
-    }
-
-    cam.aspect = aspect
-    cam.updateProjectionMatrix()
-
-    // 🔧 Ajuste del modelo (escala y posición)
-    if (podiumRef.current) {
-      if (size.width <= 480) {
-        podiumRef.current.scale.set(0.7, 0.7, 0.7)
-        podiumRef.current.position.set(0, -0.2, 0)
-      } else if (size.width <= 768) {
-        podiumRef.current.scale.set(0.85, 0.85, 0.85)
-        podiumRef.current.position.set(0, -0.1, 0)
-      } else {
-        podiumRef.current.scale.set(1, 1, 1)
-        podiumRef.current.position.set(0, 0, 0)
-      }
-    }
-  }, [size, camera])
+  // 🧩 Hooks personalizados
+  useResponsiveCamera()
+  useResponsiveModel(podiumRef)
 
   return (
     <>
+      {/* 🌌 Fondo dinámico */}
+      <Background type="gradient" /> 
+      {/* Puedes cambiar a:
+          <Background type="color" color="#101820" />
+          <Background type="hdri" hdriPath="/textures/studio_hdri.hdr" /> */}
+
+      {/* 💡 Luces */}
       <Lights />
 
-      {/* Podium con referencia para manipular escala */}
+      {/* 🧱 Modelo principal */}
       <group ref={podiumRef}>
         <Podium />
       </group>
 
-      {/* Cámara principal */}
+      {/* 🎥 Cámara principal */}
       <PerspectiveCamera makeDefault />
 
-      {/* Controles */}
+      {/* 🧭 Controles de órbita */}
       <OrbitControls
         target={[0, 1, 0]}
         enablePan={false}
