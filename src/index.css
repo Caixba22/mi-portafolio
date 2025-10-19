@@ -1,19 +1,36 @@
+/* --- Reset global --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Layout principal --- */
 html,
 body,
 #root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  overflow-x: clip; /* 🚀 clip es más seguro que hidden en móviles modernos */
+  overflow-y: auto;
   background-color: #0a0e15;
-  overflow-x: hidden; /* ❌ no queremos scroll horizontal */
-  overflow-y: auto;   /* ✅ permite scroll vertical */
-  scroll-behavior: smooth; /* ✅ desplazamiento suave */
+  scroll-behavior: smooth;
+  overscroll-behavior-x: none; /* 🧱 evita "rebotes" horizontales */
+  overscroll-behavior-y: contain;
 }
 
+/* --- Canvas global --- */
 canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
-  touch-action: none; /* evita scroll accidental en móviles */
+  touch-action: none; /* 🧤 previene el desplazamiento al interactuar */
+}
+
+/* --- Opcional: corrige el subpíxel en headers sticky --- */
+header {
+  width: 100vw; /* garantiza ancho exacto */
+  overflow-x: clip; /* evita desbordes de blur/sombra */
 }

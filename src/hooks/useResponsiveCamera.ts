@@ -18,8 +18,8 @@ export function useResponsiveCamera() {
 
     // 📱 Móviles pequeños
     if (size.width <= 480) {
-      cam.fov = 70
-      cam.position.set(0, 3.5, 13)
+      cam.fov = 40
+      cam.position.set(0, 3.5, 8)
     }
     // 💻 Tablets
     else if (size.width <= 768) {

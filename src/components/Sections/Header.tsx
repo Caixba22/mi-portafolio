@@ -18,15 +18,14 @@ export default function Header({
   const [lang, setLang] = useState<"es" | "en">(initialLang);
   const [theme, setTheme] = useState<"light" | "dark">(initialTheme);
 
-  // 🌗 Aplica el tema globalmente
+  // 🌗 Tema global
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === "dark") root.classList.add("dark");
-    else root.classList.remove("dark");
+    root.classList.toggle("dark", theme === "dark");
     onThemeChange?.(theme);
   }, [theme, onThemeChange]);
 
-  // 🌐 Notifica cambio de idioma
+  // 🌐 Cambio idioma
   useEffect(() => {
     onLanguageChange?.(lang);
   }, [lang, onLanguageChange]);
@@ -39,8 +38,6 @@ export default function Header({
             projects: "Proyectos",
             contact: "Contacto",
             theme: "Tema",
-            light: "Claro",
-            dark: "Oscuro",
             language: "Idioma",
           }
         : {
@@ -48,70 +45,12 @@ export default function Header({
             projects: "Projects",
             contact: "Contact",
             theme: "Theme",
-            light: "Light",
-            dark: "Dark",
             language: "Language",
           },
     [lang]
   );
 
-  const styles = {
-    bar: {
-      position: "sticky" as const,
-      top: 0,
-      zIndex: 50,
-      width: "100%",
-      backdropFilter: "blur(8px)",
-      background:
-        "linear-gradient(180deg, rgba(10,14,21,0.85) 0%, rgba(10,14,21,0.60) 100%)",
-      borderBottom: "1px solid rgba(255,255,255,0.08)",
-    },
-    container: {
-      maxWidth: 1200,
-      margin: "0 auto",
-      padding: "0.75rem 1rem",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      color: "white",
-    },
-    brand: {
-      display: "flex",
-      alignItems: "center",
-      gap: "0.5rem",
-      fontWeight: 700,
-      letterSpacing: 0.2,
-    },
-    nav: {
-      display: "flex",
-      alignItems: "center",
-      gap: "1rem",
-    },
-    link: {
-      color: "white",
-      textDecoration: "none",
-      opacity: 0.9,
-    },
-    btn: {
-      background: "rgba(255,255,255,0.08)",
-      border: "1px solid rgba(255,255,255,0.12)",
-      color: "white",
-      padding: "0.5rem 0.9rem",
-      borderRadius: 10,
-      cursor: "pointer",
-    },
-    iconBtn: {
-      background: "transparent",
-      border: "1px solid rgba(255,255,255,0.2)",
-      color: "white",
-      padding: "0.4rem 0.6rem",
-      borderRadius: 10,
-      cursor: "pointer",
-      minWidth: 42,
-    },
-  };
-
-  // Responsivo: cerrar panel si se agranda ventana
+  // 🔧 Cierra el menú móvil si se agranda la ventana
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 900) setOpen(false);
@@ -121,124 +60,182 @@ export default function Header({
   }, []);
 
   return (
-    <header style={styles.bar} aria-label="main header">
-      <div style={styles.container}>
-        {/* Brand */}
-        <a href="#hero" style={styles.brand} aria-label="Ir al inicio">
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        width: "100%",
+        backdropFilter: "blur(12px)",
+        background:
+          theme === "dark"
+            ? "rgba(15, 20, 30, 0.85)"
+            : "rgba(250, 250, 250, 0.8)",
+        boxShadow:
+          "0 2px 10px rgba(0,0,0,0.2), inset 0 -1px 0 rgba(255,255,255,0.05)",
+        transition: "background 0.3s ease",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "0.9rem clamp(1rem, 5vw, 2rem)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          color: theme === "dark" ? "white" : "#111",
+        }}
+      >
+        {/* 🔷 Marca */}
+        <a
+          href="#hero"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            fontWeight: 700,
+            fontSize: "clamp(1rem, 1.8vw, 1.2rem)",
+            textDecoration: "none",
+            color: theme === "dark" ? "#00b4ff" : "#0070f3",
+            letterSpacing: "0.3px",
+          }}
+        >
           <Logo />
           <span>Mi Portafolio</span>
         </a>
 
-        {/* Menú escritorio */}
+        {/* 🌐 Menú de escritorio */}
         <nav
-          aria-label="main navigation"
           style={{
-            ...styles.nav,
             display: window.innerWidth >= 900 ? "flex" : "none",
+            alignItems: "center",
+            gap: "1.8rem",
           }}
         >
-          <a href="#about" style={styles.link}>
-            {labels.about}
-          </a>
-          <a href="#projects" style={styles.link}>
-            {labels.projects}
-          </a>
-          <a href="#contact" style={styles.link}>
-            {labels.contact}
-          </a>
+          {["about", "projects", "contact"].map((key) => (
+            <a
+              key={key}
+              href={`#${key}`}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                opacity: 0.9,
+                transition: "opacity 0.2s, color 0.3s",
+                fontWeight: 500,
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.9")}
+            >
+              {labels[key as keyof typeof labels]}
+            </a>
+          ))}
 
-          {/* Idioma */}
-          <div
-            style={{ display: "flex", gap: 6, alignItems: "center" }}
-            aria-label={labels.language}
-          >
-            <button
-              style={styles.iconBtn}
+          {/* Idioma y tema */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <LangButton
+              active={lang === "es"}
               onClick={() => setLang("es")}
-              aria-pressed={lang === "es"}
-              title="ES"
-            >
-              ES
-            </button>
-            <button
-              style={styles.iconBtn}
+              label="ES"
+            />
+            <LangButton
+              active={lang === "en"}
               onClick={() => setLang("en")}
-              aria-pressed={lang === "en"}
-              title="EN"
+              label="EN"
+            />
+            <button
+              style={{
+                background: "transparent",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: "50%",
+                width: "2rem",
+                height: "2rem",
+                fontSize: "1.1rem",
+                cursor: "pointer",
+                color: "inherit",
+                transition: "all 0.3s ease",
+              }}
+              onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
             >
-              EN
+              {theme === "dark" ? "🌙" : "☀️"}
             </button>
           </div>
-
-          {/* Tema */}
-          <button
-            style={styles.btn}
-            onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-            aria-label={`${labels.theme}: ${
-              theme === "dark" ? labels.dark : labels.light
-            }`}
-            title={`${labels.theme}: ${
-              theme === "dark" ? labels.dark : labels.light
-            }`}
-          >
-            {theme === "dark" ? "🌙" : "☀️"}
-          </button>
         </nav>
 
-        {/* Toggler móvil */}
+        {/* 📱 Menú móvil */}
         <button
-          style={styles.iconBtn}
-          aria-label="Abrir menú"
-          aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "inherit",
+            fontSize: "1.6rem",
+            cursor: "pointer",
+            display: window.innerWidth < 900 ? "block" : "none",
+          }}
         >
-          ☰
+          {open ? "✕" : "☰"}
         </button>
       </div>
 
-      {/* Panel móvil */}
+      {/* Panel móvil elegante */}
       {open && (
         <div
           style={{
+            background:
+              theme === "dark"
+                ? "rgba(10,14,21,0.98)"
+                : "rgba(255,255,255,0.98)",
+            color: theme === "dark" ? "white" : "#111",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "1.2rem",
+            padding: "1.2rem 0",
             borderTop: "1px solid rgba(255,255,255,0.08)",
-            background: "rgba(10,14,21,0.95)",
-            padding: "0.75rem 1rem",
-            display: "grid",
-            gap: "0.75rem",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)",
+            transition: "all 0.3s ease",
           }}
-          role="dialog"
-          aria-modal="true"
         >
-          <a href="#about" style={styles.link} onClick={() => setOpen(false)}>
-            {labels.about}
-          </a>
-          <a href="#projects" style={styles.link} onClick={() => setOpen(false)}>
-            {labels.projects}
-          </a>
-          <a href="#contact" style={styles.link} onClick={() => setOpen(false)}>
-            {labels.contact}
-          </a>
+          {["about", "projects", "contact"].map((key) => (
+            <a
+              key={key}
+              href={`#${key}`}
+              onClick={() => setOpen(false)}
+              style={{
+                color: "inherit",
+                textDecoration: "none",
+                fontSize: "1.1rem",
+                opacity: 0.9,
+              }}
+            >
+              {labels[key as keyof typeof labels]}
+            </a>
+          ))}
 
-          <div style={{ display: "flex", gap: 8 }}>
-            <button
-              style={styles.iconBtn}
+          <div style={{ display: "flex", gap: "0.8rem" }}>
+            <LangButton
+              active={lang === "es"}
               onClick={() => setLang("es")}
-              aria-pressed={lang === "es"}
-            >
-              ES
-            </button>
-            <button
-              style={styles.iconBtn}
+              label="ES"
+            />
+            <LangButton
+              active={lang === "en"}
               onClick={() => setLang("en")}
-              aria-pressed={lang === "en"}
-            >
-              EN
-            </button>
+              label="EN"
+            />
             <button
-              style={styles.iconBtn}
-              onClick={() =>
-                setTheme((t) => (t === "dark" ? "light" : "dark"))
-              }
+              style={{
+                background: "transparent",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: "50%",
+                width: "2rem",
+                height: "2rem",
+                fontSize: "1.1rem",
+                cursor: "pointer",
+                color: "inherit",
+              }}
+              onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
             >
               {theme === "dark" ? "🌙" : "☀️"}
             </button>
@@ -249,6 +246,38 @@ export default function Header({
   );
 }
 
+/** 🔹 Botón de idioma minimalista */
+function LangButton({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        border: active
+          ? "1px solid #00b4ff"
+          : "1px solid rgba(255,255,255,0.2)",
+        background: active ? "rgba(0,180,255,0.1)" : "transparent",
+        color: "inherit",
+        padding: "0.3rem 0.7rem",
+        borderRadius: "0.5rem",
+        fontSize: "0.9rem",
+        cursor: "pointer",
+        transition: "all 0.3s ease",
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
+/** 🔷 Logo simple y elegante */
 function Logo() {
   return (
     <svg
@@ -265,12 +294,13 @@ function Logo() {
         width="18"
         height="18"
         rx="4"
-        stroke="white"
+        stroke="#00b4ff"
+        strokeWidth="1.5"
         strokeOpacity="0.8"
       />
       <path
         d="M7 14l3-4 3 3 4-6"
-        stroke="#62D0FF"
+        stroke="#00b4ff"
         strokeWidth="2"
         fill="none"
       />

@@ -18,7 +18,8 @@ export default function AboutMe() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '6rem 2rem',
+        // ✅ Espacio superior reducido (de 4rem a 2.5rem) para acercar al Header
+        padding: '2.5rem 2rem 6rem 2rem', // Top: 2.5rem, Bottom: 6rem
         color: 'white',
         position: 'relative',
         zIndex: 1,
@@ -30,33 +31,36 @@ export default function AboutMe() {
           flexDirection: isMobile ? 'column' : 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '3rem',
-          maxWidth: '900px', // 👈 limita el ancho
+          gap: '3.5rem',
+          maxWidth: '900px',
           width: '100%',
-          margin: '0 auto', // 👈 centra el bloque principal
+          margin: '0 auto',
           textAlign: isMobile ? 'center' : 'left',
         }}
       >
-        {/* 🧑‍💻 Imagen de perfil */}
+        {/* 🧑‍💻 Imagen de perfil con diseño elegante y sutil */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '1rem',
-            flexShrink: 0, // 👈 evita que la imagen se estire
+            gap: '1.2rem',
+            flexShrink: 0,
           }}
         >
           <img
             src="/models/profile.png"
             alt="Tu foto"
             style={{
-              width: isMobile ? '140px' : '180px',
-              height: isMobile ? '140px' : '180px',
+              width: isMobile ? '180px' : '220px',
+              height: isMobile ? '180px' : '220px',
               borderRadius: '50%',
               objectFit: 'cover',
-              border: '3px solid rgba(255, 255, 255, 0.1)',
-              boxShadow: '0 0 15px rgba(0, 255, 255, 0.3)',
+              // Borde de color sutil, casi invisible
+              border: '1px solid rgba(0, 180, 255, 0.2)', 
+              // ✅ Sombra elegante: Halo de Datos sutil con poco spread y opacidad baja
+              boxShadow: '0 0 10px rgba(0, 180, 255, 0.5), inset 0 0 5px rgba(0, 180, 255, 0.2)', 
+              transition: 'all 0.3s ease-out',
             }}
           />
           <a
@@ -82,7 +86,7 @@ export default function AboutMe() {
           </a>
         </div>
 
-        {/* 💬 Texto de presentación */}
+        {/* 💬 Texto de presentación (sin cambios) */}
         <div
           style={{
             flex: 1,
