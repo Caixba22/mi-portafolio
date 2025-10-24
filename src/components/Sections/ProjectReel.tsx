@@ -1,7 +1,10 @@
-//src/components/Sections/ProjectReel.tsx
+// src/components/Sections/ProjectReel.tsx
 
 import React, { useRef, useState, useEffect } from "react";
 import ProjectCard from "./ProjectCard";
+import { Canvas } from "@react-three/fiber";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import Arrow3D from "../3D/Arrow3D";
 
 interface Project {
   title: string;
@@ -17,28 +20,35 @@ interface Props {
 }
 
 /**
- * 🎞️ ProjectReel — Carrusel moderno con:
- * - scroll horizontal suave
- * - flechas abajo (visibles en móvil y desktop)
- * - swipe táctil en móvil
- * - hover con profundidad
+ * 🎞️ ProjectReel — Carrusel con flechas 3D reales
+ * - Scroll horizontal suave y centrado
+ * - Flechas 3D animadas con Three.js
+ * - Brillo (Bloom) y movimiento flotante
+ * - Diseño responsive
  */
 export default function ProjectReel({ projects }: Props) {
   const reelRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // 🔘 Scroll manual
+  // 🔘 Scroll manual centrado
   const scrollBy = (dir: "left" | "right") => {
     if (!reelRef.current) return;
-    const amount = reelRef.current.clientWidth * 0.8;
-    reelRef.current.scrollBy({
-      left: dir === "left" ? -amount : amount,
+    const reel = reelRef.current;
+    const cards = Array.from(reel.children) as HTMLElement[];
+    if (!cards.length) return;
+
+    // calcula el ancho de un card más el gap (~2rem = 32px)
+    const cardWidth = cards[0].offsetWidth + 32;
+    const scrollAmount = dir === "left" ? -cardWidth : cardWidth;
+
+    reel.scrollBy({
+      left: scrollAmount,
       behavior: "smooth",
     });
   };
 
-  // 🧭 Detectar bordes para mostrar flechas
+  // 🧭 Detectar bordes para mostrar/desactivar flechas
   const updateScrollState = () => {
     if (!reelRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = reelRef.current;
@@ -46,10 +56,19 @@ export default function ProjectReel({ projects }: Props) {
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
   };
 
+  // 🪄 Centrar el primer proyecto al inicio
   useEffect(() => {
-    updateScrollState();
     const reel = reelRef.current;
     if (!reel) return;
+    const firstCard = reel.children[0] as HTMLElement;
+    if (firstCard) {
+      const offset =
+        firstCard.offsetLeft +
+        firstCard.offsetWidth / 2 -
+        reel.clientWidth / 2;
+      reel.scrollTo({ left: offset });
+    }
+    updateScrollState();
     reel.addEventListener("scroll", updateScrollState);
     return () => reel.removeEventListener("scroll", updateScrollState);
   }, []);
@@ -107,16 +126,16 @@ export default function ProjectReel({ projects }: Props) {
             }
 
             .reel-arrow {
-              background: rgba(0, 180, 255, 0.15);
-              border: 1px solid rgba(0, 180, 255, 0.4);
-              color: #00b4ff;
-              font-size: 1.6rem;
+              background: radial-gradient(circle at 30% 30%, rgba(0,255,255,0.1), rgba(0,150,200,0.1));
+              border: 1px solid rgba(0, 200, 255, 0.4);
               border-radius: 50%;
-              width: 2.8rem;
-              height: 2.8rem;
+              width: 3rem;
+              height: 3rem;
               cursor: pointer;
               backdrop-filter: blur(6px);
-              box-shadow: 0 0 10px rgba(0, 180, 255, 0.25);
+              box-shadow:
+                inset 0 0 10px rgba(0,255,255,0.3),
+                0 0 10px rgba(0,180,255,0.25);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -124,14 +143,19 @@ export default function ProjectReel({ projects }: Props) {
             }
 
             .reel-arrow:hover {
-              background: rgba(0, 180, 255, 0.35);
+              background: radial-gradient(circle at 30% 30%, rgba(0,255,255,0.25), rgba(0,150,255,0.25));
               transform: scale(1.1);
-              box-shadow: 0 0 20px rgba(0, 180, 255, 0.5);
+              box-shadow:
+                inset 0 0 15px rgba(0,255,255,0.6),
+                0 0 25px rgba(0,255,255,0.5);
+            }
+
+            canvas {
+              border-radius: 50%;
             }
 
             @media (max-width: 768px) {
               .reel-arrow {
-                font-size: 1.4rem;
                 width: 2.5rem;
                 height: 2.5rem;
               }
@@ -155,8 +179,9 @@ export default function ProjectReel({ projects }: Props) {
         ))}
       </div>
 
-      {/* 🎯 Flechas debajo del carrusel */}
+      {/* 🎯 Flechas 3D debajo del carrusel */}
       <div className="reel-controls">
+        {/* 🔹 Flecha izquierda */}
         <button
           className="reel-arrow"
           onClick={() => scrollBy("left")}
@@ -167,8 +192,24 @@ export default function ProjectReel({ projects }: Props) {
             pointerEvents: canScrollLeft ? "auto" : "none",
           }}
         >
-          ⟵
+          <Canvas
+            style={{ width: "2.5rem", height: "2.5rem" }}
+            frameloop="always"
+            shadows
+            camera={{ position: [0, 0, 3.5], fov: 35 }}
+          >
+            <color attach="background" args={["#000"]} />
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[2, 2, 3]} intensity={1.4} />
+            <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
+            <Arrow3D direction="left" />
+            <EffectComposer>
+              <Bloom intensity={1.4} luminanceThreshold={0.25} luminanceSmoothing={0.8} />
+            </EffectComposer>
+          </Canvas>
         </button>
+
+        {/* 🔹 Flecha derecha */}
         <button
           className="reel-arrow"
           onClick={() => scrollBy("right")}
@@ -179,7 +220,21 @@ export default function ProjectReel({ projects }: Props) {
             pointerEvents: canScrollRight ? "auto" : "none",
           }}
         >
-          ⟶
+          <Canvas
+            style={{ width: "2.5rem", height: "2.5rem" }}
+            frameloop="always"
+            shadows
+            camera={{ position: [0, 0, 3.5], fov: 35 }}
+          >
+            <color attach="background" args={["#000"]} />
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[2, 2, 3]} intensity={1.4} />
+            <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
+            <Arrow3D direction="right" />
+            <EffectComposer>
+              <Bloom intensity={1.4} luminanceThreshold={0.25} luminanceSmoothing={0.8} />
+            </EffectComposer>
+          </Canvas>
         </button>
       </div>
     </div>

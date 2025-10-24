@@ -1,8 +1,5 @@
 // src/components/Sections/MyProjects.tsx
-
-import React, { Suspense, useMemo, useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import Experience from "../../scenes/Experience";
+import React, { useEffect, useState } from "react";
 import ProjectReel from "./ProjectReel";
 
 const useWindowWidth = () => {
@@ -18,12 +15,6 @@ const useWindowWidth = () => {
 export default function MyProjects() {
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < 768;
-
-  const cameraProps = useMemo(() => {
-    return isMobile
-      ? { position: [0, 2, 4] as [number, number, number], fov: 55 }
-      : { position: [0, 2, 6] as [number, number, number], fov: 45 };
-  }, [isMobile]);
 
   const projects = [
     {
@@ -78,36 +69,10 @@ export default function MyProjects() {
           textShadow: "0 0 20px rgba(0,180,255,0.5)",
         }}
       >
-        Mis Proyectos & Demo 3D
+        Mis Proyectos
       </h2>
 
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "min(90vw, 60rem)",
-          aspectRatio: "16 / 9",
-          marginBottom: "5rem",
-          borderRadius: "1.2rem",
-          overflow: "hidden",
-          boxShadow: "0 0 3rem rgba(0,180,255,0.35)",
-        }}
-      >
-        <Canvas
-          shadows
-          camera={cameraProps}
-          style={{ width: "100%", height: "100%" }}
-        >
-          <color attach="background" args={["transparent"]} />
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[3, 5, 2]} intensity={1.4} castShadow />
-          <pointLight position={[-3, 3, -3]} intensity={0.8} />
-          <Suspense fallback={null}>
-            <Experience />
-          </Suspense>
-        </Canvas>
-      </div>
-
-      {/* 🎞️ El nuevo componente del reel */}
+      {/* 🎞️ Carrusel de proyectos */}
       <ProjectReel projects={projects} />
     </section>
   );
