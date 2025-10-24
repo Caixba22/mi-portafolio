@@ -12,9 +12,10 @@ interface Project {
 
 interface Props {
   project: Project;
+  onSelect?: () => void; // 👈 nueva prop para avisar qué proyecto se clicó
 }
 
-export default function ProjectCard({ project }: Props) {
+export default function ProjectCard({ project, onSelect }: Props) {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
   const accent = "#00b4ff";
@@ -69,8 +70,14 @@ export default function ProjectCard({ project }: Props) {
     padding: "1.5rem",
   };
 
+  // 👇 Función que voltea la card y dispara el cambio de color 3D
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
+    if (onSelect) onSelect(); // notifica a MyProjects qué proyecto se activó
+  };
+
   return (
-    <div style={containerStyle} onClick={() => setIsFlipped(!isFlipped)}>
+    <div style={containerStyle} onClick={handleClick}>
       <div style={cardStyle}>
         {/* FRONT */}
         <div style={frontStyle}>
