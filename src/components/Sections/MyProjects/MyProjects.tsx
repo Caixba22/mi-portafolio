@@ -1,6 +1,6 @@
 // src/components/Sections/MyProjects.tsx
 import React, { useEffect, useState } from "react";
-import ProjectReel from "./ProjectReel";
+import ProjectReel from "./ProjectReel/ProjectReel";
 
 const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);

@@ -1,10 +1,9 @@
 // src/components/Sections/ProjectReel.tsx
-
 import React, { useRef, useState, useEffect } from "react";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "../Cards/ProjectCard";
 import { Canvas } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import Arrow3D from "../3D/Arrow3D";
+import Arrow3D from "../../../3D/Arrow3D";
 
 interface Project {
   title: string;
@@ -19,36 +18,22 @@ interface Props {
   projects: Project[];
 }
 
-/**
- * 🎞️ ProjectReel — Carrusel con flechas 3D reales
- * - Scroll horizontal suave y centrado
- * - Flechas 3D animadas con Three.js
- * - Brillo (Bloom) y movimiento flotante
- * - Diseño responsive
- */
 export default function ProjectReel({ projects }: Props) {
   const reelRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // 🔘 Scroll manual centrado
   const scrollBy = (dir: "left" | "right") => {
     if (!reelRef.current) return;
     const reel = reelRef.current;
     const cards = Array.from(reel.children) as HTMLElement[];
     if (!cards.length) return;
 
-    // calcula el ancho de un card más el gap (~2rem = 32px)
     const cardWidth = cards[0].offsetWidth + 32;
     const scrollAmount = dir === "left" ? -cardWidth : cardWidth;
-
-    reel.scrollBy({
-      left: scrollAmount,
-      behavior: "smooth",
-    });
+    reel.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
-  // 🧭 Detectar bordes para mostrar/desactivar flechas
   const updateScrollState = () => {
     if (!reelRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = reelRef.current;
@@ -56,16 +41,13 @@ export default function ProjectReel({ projects }: Props) {
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
   };
 
-  // 🪄 Centrar el primer proyecto al inicio
   useEffect(() => {
     const reel = reelRef.current;
     if (!reel) return;
     const firstCard = reel.children[0] as HTMLElement;
     if (firstCard) {
       const offset =
-        firstCard.offsetLeft +
-        firstCard.offsetWidth / 2 -
-        reel.clientWidth / 2;
+        firstCard.offsetLeft + firstCard.offsetWidth / 2 - reel.clientWidth / 2;
       reel.scrollTo({ left: offset });
     }
     updateScrollState();
@@ -82,9 +64,9 @@ export default function ProjectReel({ projects }: Props) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        overflow: "visible",
       }}
     >
-      {/* 🎠 Carrusel */}
       <div
         ref={reelRef}
         className="project-reel"
@@ -93,71 +75,92 @@ export default function ProjectReel({ projects }: Props) {
           flexDirection: "row",
           gap: "2rem",
           overflowX: "auto",
-          overflowY: "hidden",
+          overflowY: "visible",
           scrollSnapType: "x mandatory",
           scrollBehavior: "smooth",
-          padding: "1rem 2rem 2.5rem",
+          padding: "4rem 2rem 3.5rem",
           scrollbarWidth: "none",
           WebkitOverflowScrolling: "touch",
           width: "100%",
           position: "relative",
+          background: "transparent",
         }}
       >
         <style>
           {`
             .project-reel::-webkit-scrollbar { display: none; }
 
+            /* ✨ Hover solo sobre la card interna */
             .project-reel > div {
-              transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.3s ease;
+              transition: transform 0.4s ease, filter 0.3s ease;
+              background: transparent;
+              border-radius: 1rem;
+              overflow: visible;
             }
 
             .project-reel > div:hover {
               transform: scale(1.06) translateY(-8px);
-              box-shadow: 0 0 25px rgba(0,180,255,0.3);
-              filter: brightness(1.08);
+              filter: brightness(1.1);
+              z-index: 10;
             }
 
-            /* 🎯 Flechas inferiores */
+            /* 💡 Aplica sombra a la card, no al wrapper */
+            .project-reel > div:hover > div {
+              box-shadow: 0 0 30px rgba(0,180,255,0.4);
+              border-radius: 1rem;
+            }
+
+            /* ⚡ Flechas */
             .reel-controls {
               display: flex;
               justify-content: center;
-              gap: 1.5rem;
-              margin-top: 1.5rem;
+              gap: 2rem;
+              margin-top: 2.4rem;
             }
 
             .reel-arrow {
-              background: radial-gradient(circle at 30% 30%, rgba(0,255,255,0.1), rgba(0,150,200,0.1));
+              background: radial-gradient(circle at 50% 50%, rgba(0,255,255,0.12), rgba(0,150,200,0.08));
               border: 1px solid rgba(0, 200, 255, 0.4);
               border-radius: 50%;
-              width: 3rem;
-              height: 3rem;
+              width: 5.5rem;
+              height: 5.5rem;
               cursor: pointer;
-              backdrop-filter: blur(6px);
+              backdrop-filter: blur(8px);
               box-shadow:
-                inset 0 0 10px rgba(0,255,255,0.3),
-                0 0 10px rgba(0,180,255,0.25);
+                inset 0 0 16px rgba(0,255,255,0.35),
+                0 0 25px rgba(0,180,255,0.25);
               display: flex;
               align-items: center;
               justify-content: center;
               transition: all 0.25s ease;
+              overflow: visible;
             }
 
             .reel-arrow:hover {
-              background: radial-gradient(circle at 30% 30%, rgba(0,255,255,0.25), rgba(0,150,255,0.25));
-              transform: scale(1.1);
+              background: radial-gradient(circle at 50% 50%, rgba(0,255,255,0.25), rgba(0,150,255,0.2));
+              transform: scale(1.12);
               box-shadow:
-                inset 0 0 15px rgba(0,255,255,0.6),
-                0 0 25px rgba(0,255,255,0.5);
+                inset 0 0 22px rgba(0,255,255,0.6),
+                0 0 40px rgba(0,255,255,0.5);
             }
 
-            canvas {
-              border-radius: 50%;
+            .arrow-canvas-wrapper {
+              width: 3.8rem;
+              height: 3.8rem;
+              clip-path: circle(50%);
+              overflow: visible;
+            }
+
+            .arrow-canvas-wrapper canvas {
+              width: 100% !important;
+              height: 100% !important;
+              background: transparent !important;
             }
 
             @media (max-width: 768px) {
               .reel-arrow {
-                width: 2.5rem;
-                height: 2.5rem;
+                width: 4rem;
+                height: 4rem;
               }
             }
           `}
@@ -172,6 +175,10 @@ export default function ProjectReel({ projects }: Props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "stretch",
+              overflow: "visible",
+              position: "relative",
+              background: "transparent",
+              borderRadius: "1rem",
             }}
           >
             <ProjectCard project={p} />
@@ -179,9 +186,8 @@ export default function ProjectReel({ projects }: Props) {
         ))}
       </div>
 
-      {/* 🎯 Flechas 3D debajo del carrusel */}
+      {/* 🎯 Flechas 3D */}
       <div className="reel-controls">
-        {/* 🔹 Flecha izquierda */}
         <button
           className="reel-arrow"
           onClick={() => scrollBy("left")}
@@ -192,24 +198,28 @@ export default function ProjectReel({ projects }: Props) {
             pointerEvents: canScrollLeft ? "auto" : "none",
           }}
         >
-          <Canvas
-            style={{ width: "2.5rem", height: "2.5rem" }}
-            frameloop="always"
-            shadows
-            camera={{ position: [0, 0, 3.5], fov: 35 }}
-          >
-            <color attach="background" args={["#000"]} />
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[2, 2, 3]} intensity={1.4} />
-            <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
-            <Arrow3D direction="left" />
-            <EffectComposer>
-              <Bloom intensity={1.4} luminanceThreshold={0.25} luminanceSmoothing={0.8} />
-            </EffectComposer>
-          </Canvas>
+          <div className="arrow-canvas-wrapper">
+            <Canvas
+              frameloop="always"
+              shadows
+              camera={{ position: [0, 0, 3.5], fov: 35 }}
+            >
+              <color attach="background" args={["#000"]} />
+              <ambientLight intensity={0.4} />
+              <directionalLight position={[2, 2, 3]} intensity={1.4} />
+              <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
+              <Arrow3D direction="left" />
+              <EffectComposer>
+                <Bloom
+                  intensity={1.4}
+                  luminanceThreshold={0.25}
+                  luminanceSmoothing={0.8}
+                />
+              </EffectComposer>
+            </Canvas>
+          </div>
         </button>
 
-        {/* 🔹 Flecha derecha */}
         <button
           className="reel-arrow"
           onClick={() => scrollBy("right")}
@@ -220,21 +230,26 @@ export default function ProjectReel({ projects }: Props) {
             pointerEvents: canScrollRight ? "auto" : "none",
           }}
         >
-          <Canvas
-            style={{ width: "2.5rem", height: "2.5rem" }}
-            frameloop="always"
-            shadows
-            camera={{ position: [0, 0, 3.5], fov: 35 }}
-          >
-            <color attach="background" args={["#000"]} />
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[2, 2, 3]} intensity={1.4} />
-            <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
-            <Arrow3D direction="right" />
-            <EffectComposer>
-              <Bloom intensity={1.4} luminanceThreshold={0.25} luminanceSmoothing={0.8} />
-            </EffectComposer>
-          </Canvas>
+          <div className="arrow-canvas-wrapper">
+            <Canvas
+              frameloop="always"
+              shadows
+              camera={{ position: [0, 0, 3.5], fov: 35 }}
+            >
+              <color attach="background" args={["#000"]} />
+              <ambientLight intensity={0.4} />
+              <directionalLight position={[2, 2, 3]} intensity={1.4} />
+              <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
+              <Arrow3D direction="right" />
+              <EffectComposer>
+                <Bloom
+                  intensity={1.4}
+                  luminanceThreshold={0.25}
+                  luminanceSmoothing={0.8}
+                />
+              </EffectComposer>
+            </Canvas>
+          </div>
         </button>
       </div>
     </div>

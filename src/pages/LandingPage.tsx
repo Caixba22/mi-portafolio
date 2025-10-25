@@ -1,8 +1,8 @@
 // src/pages/LandingPage.tsx
-import Header from '../components/Sections/Header'
-import AboutMe from '../components/Sections/AboutMe'
-import MyProjects from '../components/Sections/MyProjects'
-import Contact from '../components/Sections/ContactForm' // 👈 importamos la nueva sección
+import Header from '../components/Sections/Header/Header'
+import AboutMe from '../components/Sections/AboutMe/AboutMe'
+import MyProjects from '../components/Sections/MyProjects/MyProjects'
+import Contact from '../components/Sections/Contact/ContactForm' // 👈 importamos la nueva sección
 
 export default function LandingPage() {
   return (

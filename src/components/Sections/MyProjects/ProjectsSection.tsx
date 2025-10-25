@@ -1,7 +1,7 @@
 // src/components/Sections/ProjectsSection.tsx
 
 import React from "react";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "./Cards/ProjectCard";
 
 interface Project {
   title: string;
