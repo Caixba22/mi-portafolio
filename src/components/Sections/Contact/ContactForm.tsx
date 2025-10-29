@@ -1,50 +1,42 @@
-//src/components/Sections/AboutMe.tsx
-import React, { useState } from 'react'
+// src/components/Sections/Contact/ContactForm.tsx
+import React, { useState } from "react";
 
-export default function Contact() {
+export default function ContactForm() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
+    name: "",
+    email: "",
+    message: "",
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Mensaje enviado:', formData)
-    alert('Gracias por tu mensaje. Te contactaré pronto 🚀')
-    setFormData({ name: '', email: '', message: '' })
-  }
+    e.preventDefault();
+    console.log("Mensaje enviado:", formData);
+    alert("Gracias por tu mensaje. Te contactaré pronto 🚀");
+    setFormData({ name: "", email: "", message: "" });
+  };
 
   return (
     <section
       id="contact"
-      style={{
-        width: '100%',
-        minHeight: '80vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '6rem 2rem',
-        background: 'linear-gradient(180deg, #10141f 0%, #0a0e15 100%)',
-        color: 'white',
-      }}
+      className="
+        w-full min-h-[80vh] flex flex-col items-center justify-center
+        px-6 sm:px-10 py-24
+        bg-gradient-to-b from-[#10141f] to-[#0a0e15]
+        text-white
+      "
     >
       {/* 📨 Título */}
       <h2
-        style={{
-          fontSize: '2.4rem',
-          marginBottom: '2.5rem',
-          color: '#00b4ff',
-          textAlign: 'center',
-          textShadow: '0 0 10px rgba(0,180,255,0.3)',
-        }}
+        className="
+          text-[2rem] sm:text-[2.4rem] mb-10 text-sky-400 text-center
+          drop-shadow-[0_0_10px_rgba(0,180,255,0.3)]
+        "
       >
         Contáctame
       </h2>
@@ -52,20 +44,15 @@ export default function Contact() {
       {/* 📬 Formulario */}
       <form
         onSubmit={handleSubmit}
-        style={{
-          width: '100%',
-          maxWidth: '600px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.2rem',
-          background: 'rgba(255,255,255,0.05)',
-          padding: '2.5rem',
-          borderRadius: '16px',
-          boxShadow: '0 0 25px rgba(0,180,255,0.1)',
-          backdropFilter: 'blur(8px)',
-        }}
+        className="
+          w-full max-w-[600px] flex flex-col gap-5
+          bg-white/5 p-10 rounded-2xl
+          shadow-[0_0_25px_rgba(0,180,255,0.1)]
+          backdrop-blur-md
+        "
       >
-        <label style={{ fontWeight: 500 }}>Nombre</label>
+        {/* Nombre */}
+        <label className="font-medium">Nombre</label>
         <input
           type="text"
           name="name"
@@ -73,27 +60,16 @@ export default function Contact() {
           onChange={handleChange}
           placeholder="Tu nombre"
           required
-          style={{
-            padding: '0.8rem 1rem',
-            borderRadius: '8px',
-            border: '1px solid #1c2435',
-            backgroundColor: '#0f131d',
-            color: 'white',
-            outline: 'none',
-            fontSize: '1rem',
-            transition: 'border 0.3s, box-shadow 0.3s',
-          }}
-          onFocus={(e) => {
-            e.target.style.border = '1px solid #00b4ff'
-            e.target.style.boxShadow = '0 0 8px rgba(0,180,255,0.3)'
-          }}
-          onBlur={(e) => {
-            e.target.style.border = '1px solid #1c2435'
-            e.target.style.boxShadow = 'none'
-          }}
+          className="
+            px-4 py-3 rounded-lg border border-[#1c2435]
+            bg-[#0f131d] text-white outline-none text-base
+            transition-all duration-300
+            focus:border-sky-400 focus:shadow-[0_0_8px_rgba(0,180,255,0.3)]
+          "
         />
 
-        <label style={{ fontWeight: 500 }}>Correo</label>
+        {/* Correo */}
+        <label className="font-medium">Correo</label>
         <input
           type="email"
           name="email"
@@ -101,27 +77,16 @@ export default function Contact() {
           onChange={handleChange}
           placeholder="tucorreo@ejemplo.com"
           required
-          style={{
-            padding: '0.8rem 1rem',
-            borderRadius: '8px',
-            border: '1px solid #1c2435',
-            backgroundColor: '#0f131d',
-            color: 'white',
-            outline: 'none',
-            fontSize: '1rem',
-            transition: 'border 0.3s, box-shadow 0.3s',
-          }}
-          onFocus={(e) => {
-            e.target.style.border = '1px solid #00b4ff'
-            e.target.style.boxShadow = '0 0 8px rgba(0,180,255,0.3)'
-          }}
-          onBlur={(e) => {
-            e.target.style.border = '1px solid #1c2435'
-            e.target.style.boxShadow = 'none'
-          }}
+          className="
+            px-4 py-3 rounded-lg border border-[#1c2435]
+            bg-[#0f131d] text-white outline-none text-base
+            transition-all duration-300
+            focus:border-sky-400 focus:shadow-[0_0_8px_rgba(0,180,255,0.3)]
+          "
         />
 
-        <label style={{ fontWeight: 500 }}>Mensaje</label>
+        {/* Mensaje */}
+        <label className="font-medium">Mensaje</label>
         <textarea
           name="message"
           value={formData.message}
@@ -129,53 +94,26 @@ export default function Contact() {
           placeholder="Escribe tu mensaje aquí..."
           required
           rows={5}
-          style={{
-            padding: '0.8rem 1rem',
-            borderRadius: '8px',
-            border: '1px solid #1c2435',
-            backgroundColor: '#0f131d',
-            color: 'white',
-            outline: 'none',
-            fontSize: '1rem',
-            resize: 'none',
-            transition: 'border 0.3s, box-shadow 0.3s',
-          }}
-          onFocus={(e) => {
-            e.target.style.border = '1px solid #00b4ff'
-            e.target.style.boxShadow = '0 0 8px rgba(0,180,255,0.3)'
-          }}
-          onBlur={(e) => {
-            e.target.style.border = '1px solid #1c2435'
-            e.target.style.boxShadow = 'none'
-          }}
+          className="
+            px-4 py-3 rounded-lg border border-[#1c2435]
+            bg-[#0f131d] text-white outline-none text-base resize-none
+            transition-all duration-300
+            focus:border-sky-400 focus:shadow-[0_0_8px_rgba(0,180,255,0.3)]
+          "
         />
 
+        {/* Botón */}
         <button
           type="submit"
-          style={{
-            marginTop: '1rem',
-            padding: '0.9rem 1.4rem',
-            background: '#0d6efd',
-            border: 'none',
-            borderRadius: '8px',
-            color: 'white',
-            fontSize: '1rem',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'background 0.3s, transform 0.2s',
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.background = '#0b5ed7'
-            e.currentTarget.style.transform = 'translateY(-2px)'
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.background = '#0d6efd'
-            e.currentTarget.style.transform = 'translateY(0)'
-          }}
+          className="
+            mt-3 px-6 py-3 bg-blue-600 hover:bg-blue-700 
+            rounded-lg text-white font-semibold text-base
+            transition-all duration-300 hover:-translate-y-0.5
+          "
         >
           Enviar mensaje
         </button>
       </form>
     </section>
-  )
+  );
 }

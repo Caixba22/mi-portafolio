@@ -1,0 +1,54 @@
+/* src/styles/theme.css */
+:root {
+  /* Tema por defecto (ocean) */
+  --color-bg: #061923;
+  --color-surface: #0b2a3a;
+  --color-text: #e6f6ff;
+  --color-primary: #00b4ff;
+  --color-secondary: #38bdf8;
+  --color-accent: #14b8a6;
+  --color-border: rgba(255,255,255,0.12);
+}
+
+/* Tema: ocean */
+[data-theme="ocean"] {
+  --color-bg: #061923;
+  --color-surface: #0b2a3a;
+  --color-text: #e6f6ff;
+  --color-primary: #00b4ff;
+  --color-secondary: #38bdf8;
+  --color-accent: #14b8a6;
+  --color-border: rgba(255,255,255,0.12);
+}
+
+/* Tema: sunset */
+[data-theme="sunset"] {
+  --color-bg: #1c0b0f;
+  --color-surface: #311018;
+  --color-text: #ffeae6;
+  --color-primary: #ff6b6b;
+  --color-secondary: #ff9f43;
+  --color-accent: #ffd93d;
+  --color-border: rgba(255,255,255,0.12);
+}
+
+/* Tema: forest */
+[data-theme="forest"] {
+  --color-bg: #0c1610;
+  --color-surface: #112018;
+  --color-text: #e8ffe8;
+  --color-primary: #22c55e;
+  --color-secondary: #16a34a;
+  --color-accent: #84cc16;
+  --color-border: rgba(255,255,255,0.12);
+}
+
+/* Utilidades semánticas (opcional, para no repetir) */
+@layer utilities {
+  .bg-app { background: var(--color-bg); }
+  .bg-surface { background: var(--color-surface); }
+  .text-app { color: var(--color-text); }
+  .border-app { border-color: var(--color-border); }
+  .btn-primary { @apply px-4 py-2 rounded-md font-medium; background: var(--color-primary); color: var(--color-text); }
+  .btn-secondary { @apply px-4 py-2 rounded-md font-medium; background: var(--color-secondary); color: var(--color-text); }
+}

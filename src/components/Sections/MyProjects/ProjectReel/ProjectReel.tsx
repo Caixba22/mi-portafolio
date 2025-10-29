@@ -30,8 +30,7 @@ export default function ProjectReel({ projects }: Props) {
     if (!cards.length) return;
 
     const cardWidth = cards[0].offsetWidth + 32;
-    const scrollAmount = dir === "left" ? -cardWidth : cardWidth;
-    reel.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    reel.scrollBy({ left: dir === "left" ? -cardWidth : cardWidth, behavior: "smooth" });
   };
 
   const updateScrollState = () => {
@@ -56,130 +55,27 @@ export default function ProjectReel({ projects }: Props) {
   }, []);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "min(90vw, 80rem)",
-        margin: "0 auto",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        overflow: "visible",
-      }}
-    >
+    <div className="flex flex-col items-center w-full max-w-[80rem] mx-auto overflow-visible">
+      {/* 🎞️ Carrusel horizontal */}
       <div
         ref={reelRef}
-        className="project-reel"
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "2rem",
-          overflowX: "auto",
-          overflowY: "visible",
-          scrollSnapType: "x mandatory",
-          scrollBehavior: "smooth",
-          padding: "4rem 2rem 3.5rem",
-          scrollbarWidth: "none",
-          WebkitOverflowScrolling: "touch",
-          width: "100%",
-          position: "relative",
-          background: "transparent",
-        }}
+        className="
+          flex flex-row gap-8 overflow-x-auto overflow-y-visible
+          px-8 py-16 scroll-smooth snap-x snap-mandatory
+          w-full no-scrollbar
+        "
       >
-        <style>
-          {`
-            .project-reel::-webkit-scrollbar { display: none; }
-
-            /* ✨ Hover solo sobre la card interna */
-            .project-reel > div {
-              transition: transform 0.4s ease, filter 0.3s ease;
-              background: transparent;
-              border-radius: 1rem;
-              overflow: visible;
-            }
-
-            .project-reel > div:hover {
-              transform: scale(1.06) translateY(-8px);
-              filter: brightness(1.1);
-              z-index: 10;
-            }
-
-            /* 💡 Aplica sombra a la card, no al wrapper */
-            .project-reel > div:hover > div {
-              box-shadow: 0 0 30px rgba(0,180,255,0.4);
-              border-radius: 1rem;
-            }
-
-            /* ⚡ Flechas */
-            .reel-controls {
-              display: flex;
-              justify-content: center;
-              gap: 2rem;
-              margin-top: 2.4rem;
-            }
-
-            .reel-arrow {
-              background: radial-gradient(circle at 50% 50%, rgba(0,255,255,0.12), rgba(0,150,200,0.08));
-              border: 1px solid rgba(0, 200, 255, 0.4);
-              border-radius: 50%;
-              width: 5.5rem;
-              height: 5.5rem;
-              cursor: pointer;
-              backdrop-filter: blur(8px);
-              box-shadow:
-                inset 0 0 16px rgba(0,255,255,0.35),
-                0 0 25px rgba(0,180,255,0.25);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              transition: all 0.25s ease;
-              overflow: visible;
-            }
-
-            .reel-arrow:hover {
-              background: radial-gradient(circle at 50% 50%, rgba(0,255,255,0.25), rgba(0,150,255,0.2));
-              transform: scale(1.12);
-              box-shadow:
-                inset 0 0 22px rgba(0,255,255,0.6),
-                0 0 40px rgba(0,255,255,0.5);
-            }
-
-            .arrow-canvas-wrapper {
-              width: 3.8rem;
-              height: 3.8rem;
-              clip-path: circle(50%);
-              overflow: visible;
-            }
-
-            .arrow-canvas-wrapper canvas {
-              width: 100% !important;
-              height: 100% !important;
-              background: transparent !important;
-            }
-
-            @media (max-width: 768px) {
-              .reel-arrow {
-                width: 4rem;
-                height: 4rem;
-              }
-            }
-          `}
-        </style>
-
         {projects.map((p, i) => (
           <div
             key={i}
-            style={{
-              flex: "0 0 clamp(17rem, 60vw, 22rem)",
-              scrollSnapAlign: "center",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "stretch",
-              overflow: "visible",
-              position: "relative",
-              background: "transparent",
-              borderRadius: "1rem",
-            }}
+            className="
+              flex justify-center items-stretch
+              snap-center flex-shrink-0
+              [flex:0_0_clamp(17rem,60vw,22rem)]
+              bg-transparent rounded-xl
+              transition-all duration-300 ease-in-out
+              hover:scale-[1.06] hover:-translate-y-2 hover:z-10
+            "
           >
             <ProjectCard project={p} />
           </div>
@@ -187,66 +83,62 @@ export default function ProjectReel({ projects }: Props) {
       </div>
 
       {/* 🎯 Flechas 3D */}
-      <div className="reel-controls">
+      <div className="flex justify-center items-center gap-8 mt-8">
+        {/* Flecha izquierda */}
         <button
-          className="reel-arrow"
           onClick={() => scrollBy("left")}
           disabled={!canScrollLeft}
           aria-label="Scroll left"
-          style={{
-            opacity: canScrollLeft ? 1 : 0.4,
-            pointerEvents: canScrollLeft ? "auto" : "none",
-          }}
+          className={`
+            flex items-center justify-center rounded-full 
+            w-[5.5rem] h-[5.5rem] md:w-[4rem] md:h-[4rem]
+            border border-cyan-400/40 
+            bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,255,0.12),rgba(0,150,200,0.08))]
+            backdrop-blur-md transition-all duration-200 ease-in-out
+            shadow-[inset_0_0_16px_rgba(0,255,255,0.35),0_0_25px_rgba(0,180,255,0.25)]
+            hover:scale-110 hover:shadow-[inset_0_0_22px_rgba(0,255,255,0.6),0_0_40px_rgba(0,255,255,0.5)]
+            ${!canScrollLeft ? "opacity-40 pointer-events-none" : ""}
+          `}
         >
-          <div className="arrow-canvas-wrapper">
-            <Canvas
-              frameloop="always"
-              shadows
-              camera={{ position: [0, 0, 3.5], fov: 35 }}
-            >
-              <color attach="background" args={["#000"]} />
+          <div className="w-[3.8rem] h-[3.8rem] overflow-visible rounded-full">
+            <Canvas frameloop="always" shadows camera={{ position: [0, 0, 3.5], fov: 35 }}>
+              <color attach="background" args={["transparent"]} />
               <ambientLight intensity={0.4} />
               <directionalLight position={[2, 2, 3]} intensity={1.4} />
               <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
               <Arrow3D direction="left" />
               <EffectComposer>
-                <Bloom
-                  intensity={1.4}
-                  luminanceThreshold={0.25}
-                  luminanceSmoothing={0.8}
-                />
+                <Bloom intensity={1.4} luminanceThreshold={0.25} luminanceSmoothing={0.8} />
               </EffectComposer>
             </Canvas>
           </div>
         </button>
 
+        {/* Flecha derecha */}
         <button
-          className="reel-arrow"
           onClick={() => scrollBy("right")}
           disabled={!canScrollRight}
           aria-label="Scroll right"
-          style={{
-            opacity: canScrollRight ? 1 : 0.4,
-            pointerEvents: canScrollRight ? "auto" : "none",
-          }}
+          className={`
+            flex items-center justify-center rounded-full 
+            w-[5.5rem] h-[5.5rem] md:w-[4rem] md:h-[4rem]
+            border border-cyan-400/40 
+            bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,255,0.12),rgba(0,150,200,0.08))]
+            backdrop-blur-md transition-all duration-200 ease-in-out
+            shadow-[inset_0_0_16px_rgba(0,255,255,0.35),0_0_25px_rgba(0,180,255,0.25)]
+            hover:scale-110 hover:shadow-[inset_0_0_22px_rgba(0,255,255,0.6),0_0_40px_rgba(0,255,255,0.5)]
+            ${!canScrollRight ? "opacity-40 pointer-events-none" : ""}
+          `}
         >
-          <div className="arrow-canvas-wrapper">
-            <Canvas
-              frameloop="always"
-              shadows
-              camera={{ position: [0, 0, 3.5], fov: 35 }}
-            >
-              <color attach="background" args={["#000"]} />
+          <div className="w-[3.8rem] h-[3.8rem] overflow-visible rounded-full">
+            <Canvas frameloop="always" shadows camera={{ position: [0, 0, 3.5], fov: 35 }}>
+              <color attach="background" args={["transparent"]} />
               <ambientLight intensity={0.4} />
               <directionalLight position={[2, 2, 3]} intensity={1.4} />
               <pointLight position={[-3, -2, 2]} intensity={0.6} color="#00ffff" />
               <Arrow3D direction="right" />
               <EffectComposer>
-                <Bloom
-                  intensity={1.4}
-                  luminanceThreshold={0.25}
-                  luminanceSmoothing={0.8}
-                />
+                <Bloom intensity={1.4} luminanceThreshold={0.25} luminanceSmoothing={0.8} />
               </EffectComposer>
             </Canvas>
           </div>
