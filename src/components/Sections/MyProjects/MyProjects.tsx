@@ -1,4 +1,7 @@
 // src/components/Sections/MyProjects.tsx
+
+// src/components/Sections/MyProjects.tsx
+
 import React, { useEffect, useState } from "react";
 import { useUI } from "../../../context/uiContext";
 import ProjectReel from "./ProjectReel/ProjectReel";
@@ -58,19 +61,17 @@ export default function MyProjects() {
     },
   ];
 
-  const heading = lang === "es" ? "Mis proyectos" : "My projects";
+  const heading = lang === "es" ? "Mis proyectos más recientes" : "My projects";
 
   return (
     <section
       id="projects"
-      /* espacio para el header sticky */
       className="
         scroll-mt-[80px]
         relative w-full
         flex flex-col items-center
-        px-6 md:px-16 py-24
+        py-24
         bg-app/0 text-app
-        overflow-hidden
       "
     >
       {/* luz suave arriba */}
@@ -83,12 +84,29 @@ export default function MyProjects() {
         "
       />
 
-      <h2 className="relative text-center text-3xl md:text-4xl font-bold mb-12 text-[var(--color-primary)]">
-        {heading}
-      </h2>
+      {/* CONTENEDOR ANGOSTO + BORDE REDONDEADO + FONDO */}
+      <div
+        className="
+          relative
+          mx-auto
+          w-[min(100vw-2rem,68rem)]
+          md:w-[min(100vw-4rem,62rem)]
+          bg-black/10
+          border border-white/5
+          rounded-2xl md:rounded-3xl
+          backdrop-blur-sm
+          pt-10 pb-12 px-3 md:px-6
+          overflow-hidden
+        "
+      >
+        <h2 className="text-center text-3xl md:text-4xl font-bold mb-10 text-[var(--color-primary)]">
+          {heading}
+        </h2>
 
-      <div className="relative w-full max-w-[62rem] mx-auto">
-        <ProjectReel projects={projects} isMobile={isMobile} />
+        {/* este div fuerza al carrusel a NO salirse del tamaño anterior */}
+        <div className="relative w-full overflow-hidden rounded-xl">
+          <ProjectReel projects={projects} isMobile={isMobile} />
+        </div>
       </div>
     </section>
   );

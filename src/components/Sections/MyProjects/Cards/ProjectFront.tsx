@@ -1,5 +1,4 @@
-// src/components/Sections/Cards/ProjectFront.tsx
-
+// src/components/Sections/MyProjects/Cards/ProjectFront.tsx
 import React from "react";
 
 interface Props {
@@ -10,102 +9,65 @@ interface Props {
   link: string;
 }
 
-export default function ProjectFront({ title, desc, imgDesktop, imgMobile, link }: Props) {
-  const accent = "#00b4ff";
-  const textColor = "#e4e8ef";
-
+export default function ProjectFront({
+  title,
+  desc,
+  imgDesktop,
+  imgMobile,
+  link,
+}: Props) {
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        height: "100%",
-        padding: "1.2rem",
-      }}
+      className="
+        flex flex-col
+        h-full
+        p-5
+        gap-5
+      "
     >
       {/* IMÁGENES */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "0.5rem",
-          marginBottom: "1rem",
-        }}
-      >
+      <div className="flex justify-center gap-2">
         <img
           src={imgDesktop}
           alt={`${title} Desktop`}
-          style={{
-            width: "68%",
-            height: "160px",
-            borderRadius: "6px",
-            objectFit: "cover",
-            filter: "brightness(0.95)",
-          }}
+          className="w-[68%] h-[160px] rounded-md object-cover brightness-[0.98]"
         />
         <img
           src={imgMobile}
           alt={`${title} Mobile`}
-          style={{
-            width: "26%",
-            height: "160px",
-            borderRadius: "6px",
-            objectFit: "cover",
-            opacity: 0.9,
-          }}
+          className="w-[26%] h-[160px] rounded-md object-cover opacity-90"
         />
       </div>
 
-      {/* TEXTO */}
-      <div>
-        <h3
-          style={{
-            color: accent,
-            fontSize: "1.2rem",
-            fontWeight: 600,
-            marginBottom: "0.5rem",
-            letterSpacing: "0.4px",
-          }}
-        >
-          {title}
-        </h3>
-        <p
-          style={{
-            color: textColor,
-            fontSize: "0.9rem",
-            opacity: 0.85,
-            lineHeight: 1.4,
-            marginBottom: "1rem",
-          }}
-        >
-          {desc}
-        </p>
+      {/* TEXTO + BOTÓN */}
+      <div className="flex flex-col gap-4 pb-2">
+        <div>
+          <h3 className="text-[var(--color-primary)] text-lg font-semibold tracking-tight mb-2">
+            {title}
+          </h3>
+          <p className="text-app/90 text-sm leading-relaxed">
+            {desc}
+          </p>
+        </div>
+
         <a
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            display: "inline-block",
-            padding: "0.5rem 1.2rem",
-            background: "rgba(0,180,255,0.15)",
-            border: `1px solid ${accent}50`,
-            borderRadius: "6px",
-            color: accent,
-            textDecoration: "none",
-            fontWeight: 600,
-            fontSize: "0.9rem",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.background = accent;
-            (e.currentTarget as HTMLElement).style.color = "#10141f";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.background =
-              "rgba(0,180,255,0.15)";
-            (e.currentTarget as HTMLElement).style.color = accent;
-          }}
+          className="
+            inline-block
+            px-4 py-2
+            rounded-md
+            text-sm font-semibold
+            border
+            border-[color-mix(in_oklab,var(--color-primary)_55%,transparent)]
+            bg-[color-mix(in_oklab,var(--color-primary)_12%,transparent)]
+            text-[var(--color-primary)]
+            transition
+            hover:bg-[var(--color-primary)]
+            hover:text-[var(--color-bg)]
+            focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/60
+          "
         >
           Visit Site →
         </a>

@@ -21,8 +21,8 @@ interface Props {
 
 export default function ProjectReel({ projects, isMobile = false }: Props) {
   const reelRef = useRef<HTMLDivElement | null>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(true);   // 👈 empieza en true para que no parpadeen
-  const [canScrollRight, setCanScrollRight] = useState(true); // 👈
+  const [canScrollLeft, setCanScrollLeft] = useState(true);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   const scrollBy = (dir: "left" | "right") => {
     if (!reelRef.current) return;
@@ -40,10 +40,7 @@ export default function ProjectReel({ projects, isMobile = false }: Props) {
   const updateScrollState = () => {
     if (!reelRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = reelRef.current;
-
-    // si todo cabe, igual los dejamos en true para que NO desaparezcan
     const fits = scrollWidth <= clientWidth + 2;
-
     setCanScrollLeft(fits ? true : scrollLeft > 10);
     setCanScrollRight(fits ? true : scrollLeft + clientWidth < scrollWidth - 10);
   };
@@ -81,16 +78,7 @@ export default function ProjectReel({ projects, isMobile = false }: Props) {
       `;
 
   return (
-    <div
-      className="
-        flex flex-col items-center
-        w-full
-        bg-[color-mix(in_oklab,var(--color-surface)_70%,transparent)]
-        rounded-3xl
-        shadow-[0_12px_50px_rgba(0,0,0,0.35)]
-        border border-[color-mix(in_oklab,var(--color-border)_55%,transparent)]
-      "
-    >
+    <div className="flex flex-col items-center w-full">
       <div ref={reelRef} className={reelClasses}>
         {projects.map((p, i) => (
           <div
@@ -108,7 +96,7 @@ export default function ProjectReel({ projects, isMobile = false }: Props) {
       </div>
 
       {!isMobile && (
-        <div className="flex justify-center items-center gap-6 pb-6">
+        <div className="flex justify-center items-center gap-4 pb-2 pt-2">
           <ArrowButton
             dir="left"
             active={canScrollLeft}
@@ -134,38 +122,63 @@ function ArrowButton({
   active: boolean;
   onClick: () => void;
 }) {
+  const [accent, setAccent] = React.useState("#00ffff");
+
+  React.useEffect(() => {
+    const getColor = () => {
+      const root = document.documentElement;
+      const val =
+        getComputedStyle(root).getPropertyValue("--color-primary").trim() ||
+        "#00ffff";
+      setAccent(val);
+    };
+    getColor();
+    const obs = new MutationObserver((muts) => {
+      for (const m of muts) {
+        if (m.type === "attributes" && m.attributeName === "data-theme") {
+          getColor();
+        }
+      }
+    });
+    obs.observe(document.documentElement, { attributes: true });
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <button
       onClick={onClick}
       className={`
-        relative inline-grid place-items-center
-        w-16 h-16 rounded-2xl
-        border border-[var(--color-border)]
-        bg-[color-mix(in_oklab,var(--color-surface)_90%,transparent)]
-        transition-all duration-200
-        ${active ? "opacity-100 hover:scale-105" : "opacity-45"}
+        inline-grid place-items-center
+        w-12 h-12
+        bg-transparent
+        border-0
+        rounded-none
+        ${active ? "opacity-100" : "opacity-40 pointer-events-none"}
       `}
       aria-label={dir === "left" ? "Anterior" : "Siguiente"}
     >
-      <div className="w-[3.2rem] h-[3.2rem] overflow-visible rounded-full">
-        <Canvas
-          frameloop="always"
-          camera={{ position: [0, 0, 3.5], fov: 35 }}
-          gl={{ antialias: true }}
-        >
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[2, 2, 3]} intensity={1.4} />
-          <pointLight position={[-3, -2, 2]} intensity={0.8} color="#00ffff" />
-          <Arrow3D direction={dir} />
-          <EffectComposer>
-            <Bloom
-              intensity={1.2}
-              luminanceThreshold={0.25}
-              luminanceSmoothing={0.7}
-            />
-          </EffectComposer>
-        </Canvas>
-      </div>
+      <Canvas
+        frameloop="always"
+        camera={{ position: [0, 0, 3.5], fov: 35 }}
+        gl={{ antialias: true, alpha: true }}
+        style={{
+          width: "3rem",
+          height: "3rem",
+          background: "transparent", // 👈 IMPORTANTE
+        }}
+      >
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[2, 2, 3]} intensity={1.4} />
+        <pointLight position={[-3, -2, 2]} intensity={0.9} color={accent} />
+        <Arrow3D direction={dir} color={accent} variant="chevron" />
+        <EffectComposer>
+          <Bloom
+            intensity={1.2}
+            luminanceThreshold={0.25}
+            luminanceSmoothing={0.7}
+          />
+        </EffectComposer>
+      </Canvas>
     </button>
   );
 }

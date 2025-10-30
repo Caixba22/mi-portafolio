@@ -1,5 +1,4 @@
-// src/components/Sections/Cards/ProjectBack.tsx
-
+// src/components/Sections/MyProjects/Cards/ProjectBack.tsx
 import React from "react";
 
 interface Props {
@@ -7,53 +6,37 @@ interface Props {
 }
 
 export default function ProjectBack({ technologies }: Props) {
-  const accent = "#00b4ff";
-
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100%",
-        padding: "1.5rem",
-        transform: "rotateY(180deg)",
-      }}
+      className="
+        flex flex-col items-center justify-center
+        h-full
+        p-6
+        [transform:rotateY(180deg)]
+        gap-4
+      "
     >
-      <h3
-        style={{
-          color: accent,
-          fontSize: "1.1rem",
-          marginBottom: "0.8rem",
-          letterSpacing: "0.5px",
-        }}
-      >
+      <h3 className="text-[var(--color-primary)] text-base font-semibold tracking-wide">
         Technologies
       </h3>
+
       <ul
-        style={{
-          listStyle: "none",
-          padding: 0,
-          margin: 0,
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "0.6rem",
-        }}
+        className="
+          flex flex-wrap gap-2 justify-center
+          list-none p-0 m-0
+        "
       >
         {technologies.map((tech, i) => (
           <li
             key={i}
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              border: `1px solid rgba(255,255,255,0.1)`,
-              borderRadius: "6px",
-              padding: "0.4rem 0.8rem",
-              color: "#cfd6e1",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-            }}
+            className="
+              bg-[color-mix(in_oklab,var(--color-surface)_35%,transparent)]
+              border border-[color-mix(in_oklab,var(--color-border)_70%,transparent)]
+              rounded-md
+              px-3 py-1
+              text-sm font-medium
+              text-[color-mix(in_oklab,var(--color-text)_85%,transparent)]
+            "
           >
             {tech}
           </li>
