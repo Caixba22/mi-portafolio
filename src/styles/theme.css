@@ -2,53 +2,71 @@
 :root {
   /* Tema por defecto (ocean) */
   --color-bg: #061923;
+  --color-bg-soft: #071f2b;          /* 👈 un pelito más claro/oscuro */
   --color-surface: #0b2a3a;
   --color-text: #e6f6ff;
   --color-primary: #00b4ff;
   --color-secondary: #38bdf8;
   --color-accent: #14b8a6;
-  --color-border: rgba(255,255,255,0.12);
+  --color-border: rgba(255, 255, 255, 0.12);
 }
 
 /* Tema: ocean */
 [data-theme="ocean"] {
   --color-bg: #061923;
+  --color-bg-soft: #071f2b;
   --color-surface: #0b2a3a;
   --color-text: #e6f6ff;
   --color-primary: #00b4ff;
   --color-secondary: #38bdf8;
   --color-accent: #14b8a6;
-  --color-border: rgba(255,255,255,0.12);
+  --color-border: rgba(255, 255, 255, 0.12);
 }
 
 /* Tema: sunset */
 [data-theme="sunset"] {
   --color-bg: #1c0b0f;
+  --color-bg-soft: #220e14;          /* 👈 un tono cercano para secciones alternas */
   --color-surface: #311018;
   --color-text: #ffeae6;
   --color-primary: #ff6b6b;
   --color-secondary: #ff9f43;
   --color-accent: #ffd93d;
-  --color-border: rgba(255,255,255,0.12);
+  --color-border: rgba(255, 255, 255, 0.12);
 }
 
 /* Tema: forest */
 [data-theme="forest"] {
   --color-bg: #0c1610;
+  --color-bg-soft: #0f1a13;          /* 👈 poquito más claro/oscuro */
   --color-surface: #112018;
   --color-text: #e8ffe8;
   --color-primary: #22c55e;
   --color-secondary: #16a34a;
   --color-accent: #84cc16;
-  --color-border: rgba(255,255,255,0.12);
+  --color-border: rgba(255, 255, 255, 0.12);
 }
 
-/* Utilidades semánticas (opcional, para no repetir) */
+/* Utilidades semánticas (para no repetir) */
 @layer utilities {
   .bg-app { background: var(--color-bg); }
+  .bg-app-soft { background: var(--color-bg-soft); }  /* 👈 NUEVA */
   .bg-surface { background: var(--color-surface); }
+
   .text-app { color: var(--color-text); }
+  .text-muted { color: color-mix(in oklab, var(--color-text) 65%, transparent); }
+
   .border-app { border-color: var(--color-border); }
-  .btn-primary { @apply px-4 py-2 rounded-md font-medium; background: var(--color-primary); color: var(--color-text); }
-  .btn-secondary { @apply px-4 py-2 rounded-md font-medium; background: var(--color-secondary); color: var(--color-text); }
+
+  .btn-primary {
+    @apply px-4 py-2 rounded-md font-medium;
+    background: var(--color-primary);
+    color: var(--color-text);
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 rounded-md font-medium;
+    background: var(--color-secondary);
+    color: var(--color-text);
+  }
 }

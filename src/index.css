@@ -1,13 +1,25 @@
 /* src/index.css */
+
+/* 1. Tailwind (forma nueva) */
 @import "tailwindcss";
+
+/* 2. Tus variables de tema */
 @import "./styles/theme.css";
 
+/* 3. Reglas base del proyecto */
 @layer base {
-  html { @apply h-full; }
+  html {
+    @apply h-full;
+  }
+
   body {
+    margin: 0; /* 👈 QUITA el espacio de arriba */
     @apply min-h-screen font-sans transition-colors duration-500;
     background: var(--color-bg);
     color: var(--color-text);
   }
-  #root { @apply flex flex-col min-h-screen; }
+
+  #root {
+    @apply flex flex-col min-h-screen;
+  }
 }

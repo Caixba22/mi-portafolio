@@ -1,41 +1,56 @@
 // src/components/Sections/MyProjects.tsx
 import React, { useEffect, useState } from "react";
+import { useUI } from "../../../context/uiContext";
 import ProjectReel from "./ProjectReel/ProjectReel";
 
 const useWindowWidth = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   return width;
 };
 
 export default function MyProjects() {
+  const { lang } = useUI();
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < 768;
 
   const projects = [
     {
-      title: "Music Visualizer 0.0",
-      desc: "Sitio 3D interactivo con React Three Fiber y animaciones suaves.",
+      title: lang === "es" ? "Music Visualizer 0.0" : "Music Visualizer 0.0",
+      desc:
+        lang === "es"
+          ? "Sitio 3D interactivo con React Three Fiber y animaciones suaves."
+          : "3D interactive site with React Three Fiber and smooth animations.",
       imgDesktop: "/pc_musicvisualizer.png",
       imgMobile: "/movil_musicvisualizer.jpg",
       link: "https://music-visualizer00.netlify.app/",
       technologies: ["React", "Three.js", "TypeScript", "CSS"],
     },
     {
-      title: "Mi Consultorio",
-      desc: "Aplicación full-stack con React, Node.js y base de datos MongoDB.",
+      title: lang === "es" ? "Mi Consultorio" : "My Clinic",
+      desc:
+        lang === "es"
+          ? "Aplicación full-stack con React, Node.js y MongoDB."
+          : "Full-stack app with React, Node.js and MongoDB.",
       imgDesktop: "/pc_miconsultorio.png",
       imgMobile: "/movil_miconsultorio.jpg",
       link: "https://mipaginaweb-miconsultorio.netlify.app/",
       technologies: ["React", "Node.js", "Express", "MongoDB"],
     },
     {
-      title: "Mi Catálogo",
-      desc: "Dashboard analítico con gráficas dinámicas y consumo de API REST.",
+      title: lang === "es" ? "Mi Catálogo" : "My Catalog",
+      desc:
+        lang === "es"
+          ? "Dashboard con gráficas y consumo de API REST."
+          : "Dashboard with charts and REST API.",
       imgDesktop: "/pc_micatalogo.png",
       imgMobile: "/movil_micatalogo.jpg",
       link: "https://mi-negocio-two.vercel.app/",
@@ -43,31 +58,38 @@ export default function MyProjects() {
     },
   ];
 
+  const heading = lang === "es" ? "Mis proyectos" : "My projects";
+
   return (
     <section
       id="projects"
+      /* espacio para el header sticky */
       className="
-        w-full min-h-screen
-        flex flex-col items-center justify-center
+        scroll-mt-[80px]
+        relative w-full
+        flex flex-col items-center
         px-6 md:px-16 py-24
-        text-white
-        bg-[radial-gradient(circle_at_50%_10%,#0d121b,#05070c_90%)]
-        overflow-visible
+        bg-app/0 text-app
+        overflow-hidden
       "
     >
-      <h2
+      {/* luz suave arriba */}
+      <div
         className="
-          text-center text-cyan-400
-          text-4xl md:text-5xl font-bold mb-12
-          tracking-wide
-          drop-shadow-[0_0_20px_rgba(0,180,255,0.5)]
+          pointer-events-none
+          absolute -top-32 left-1/2 -translate-x-1/2
+          w-[60rem] h-[18rem]
+          bg-white/6 blur-[110px] rounded-full
         "
-      >
-        Mis Proyectos
+      />
+
+      <h2 className="relative text-center text-3xl md:text-4xl font-bold mb-12 text-[var(--color-primary)]">
+        {heading}
       </h2>
 
-      {/* 🎞️ Carrusel horizontal */}
-      <ProjectReel projects={projects} />
+      <div className="relative w-full max-w-[62rem] mx-auto">
+        <ProjectReel projects={projects} isMobile={isMobile} />
+      </div>
     </section>
   );
 }
