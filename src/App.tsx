@@ -1,8 +1,11 @@
 // src/App.tsx
-import LandingPage from './pages/LandingPage'
+import { UIProvider } from "./context/uiContext";
+import LandingPage from "./pages/LandingPage";
 
 export default function App() {
   return (
-    <LandingPage />
-  )
+    <UIProvider>
+      <LandingPage />
+    </UIProvider>
+  );
 }
