@@ -1,6 +1,6 @@
 // src/pages/LandingPage.tsx
 import Header from "../components/Sections/Header/Header";
-import AppMenu from "../components/AppMenu";
+import { AppMenu } from "../components/AppMenu";  // 👈 con llaves
 import AboutMe from "../components/Sections/AboutMe/AboutMe";
 import MyProjects from "../components/Sections/MyProjects/MyProjects";
 import Contact from "../components/Sections/Contact/ContactForm";
