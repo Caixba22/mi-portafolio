@@ -1,13 +1,10 @@
 // src/components/Sections/MyProjects.tsx
-
-// src/components/Sections/MyProjects.tsx
-
 import React, { useEffect, useState } from "react";
 import { useUI } from "../../../context/uiContext";
 import ProjectReel from "./ProjectReel/ProjectReel";
 
 const useWindowWidth = () => {
-  const [width, setWidth] = useState(() =>
+  const [width, setWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1024
   );
 
@@ -61,51 +58,60 @@ export default function MyProjects() {
     },
   ];
 
-  const heading = lang === "es" ? "Mis proyectos más recientes" : "My projects";
+  const heading =
+    lang === "es" ? "Mis proyectos más recientes" : "My recent projects";
 
   return (
     <section
       id="projects"
       className="
         scroll-mt-[80px]
-        relative w-full
-        flex flex-col items-center
-        py-24
-        bg-app/0 text-app
+        w-full flex justify-center
+        py-20 px-4 sm:px-6 lg:px-8
+        bg-transparent text-[#1a1a1a]
       "
     >
-      {/* luz suave arriba */}
-      <div
-        className="
-          pointer-events-none
-          absolute -top-32 left-1/2 -translate-x-1/2
-          w-[60rem] h-[18rem]
-          bg-white/6 blur-[110px] rounded-full
-        "
-      />
-
-      {/* CONTENEDOR ANGOSTO + BORDE REDONDEADO + FONDO */}
       <div
         className="
           relative
+          w-[min(100%,52rem)]
           mx-auto
-          w-[min(100vw-2rem,68rem)]
-          md:w-[min(100vw-4rem,62rem)]
-          bg-black/10
-          border border-white/5
           rounded-2xl md:rounded-3xl
-          backdrop-blur-sm
-          pt-10 pb-12 px-3 md:px-6
-          overflow-hidden
+          border border-[color-mix(in_oklab,var(--color-primary)_30%,rgba(0,0,0,0.08))]
+          shadow-[0_18px_45px_rgba(0,0,0,0.15)]
+          bg-[rgba(255,255,255,0.65)]
+          backdrop-blur-md
+          px-6 sm:px-10 py-12
+          transition-all duration-300
+          hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "
       >
-        <h2 className="text-center text-3xl md:text-4xl font-bold mb-10 text-[var(--color-primary)]">
-          {heading}
-        </h2>
+        {/* ✨ Halo dinámico alrededor del bloque */}
+        <div
+          className="
+            absolute inset-0 rounded-2xl md:rounded-3xl
+            bg-[var(--color-primary)]
+            opacity-15 blur-2xl
+            pointer-events-none
+          "
+        />
 
-        {/* este div fuerza al carrusel a NO salirse del tamaño anterior */}
-        <div className="relative w-full overflow-hidden rounded-xl">
-          <ProjectReel projects={projects} isMobile={isMobile} />
+        {/* 💎 Contenido principal */}
+        <div className="relative z-10">
+          <h2
+            className="
+              text-[2rem] sm:text-[2.4rem]
+              mb-10
+              text-[var(--color-primary)]
+              text-center font-semibold
+            "
+          >
+            {heading}
+          </h2>
+
+          <div className="relative w-full overflow-hidden rounded-xl">
+            <ProjectReel projects={projects} isMobile={isMobile} />
+          </div>
         </div>
       </div>
     </section>

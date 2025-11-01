@@ -1,4 +1,4 @@
-//src/components/AppMenu/MenuNav.tsx
+// src/components/AppMenu/MenuNav.tsx
 import React from "react";
 
 type Labels = {
@@ -10,10 +10,18 @@ type Labels = {
 export default function MenuNav({
   labels,
   onGoTo,
+  activeSection,
 }: {
   labels: Labels;
   onGoTo: (id: string) => void;
+  activeSection?: string | null;
 }) {
+  const items = [
+    { id: "about", label: labels.about },
+    { id: "projects", label: labels.projects },
+    { id: "contact", label: labels.contact },
+  ];
+
   return (
     <>
       <p
@@ -26,9 +34,14 @@ export default function MenuNav({
       </p>
 
       <nav className="px-3 flex flex-col">
-        <NavItem label={labels.about} onClick={() => onGoTo("#about")} />
-        <NavItem label={labels.projects} onClick={() => onGoTo("#projects")} />
-        <NavItem label={labels.contact} onClick={() => onGoTo("#contact")} />
+        {items.map((item) => (
+          <NavItem
+            key={item.id}
+            label={item.label}
+            onClick={() => onGoTo(`#${item.id}`)}
+            active={activeSection === item.id}
+          />
+        ))}
       </nav>
     </>
   );
@@ -37,18 +50,26 @@ export default function MenuNav({
 function NavItem({
   label,
   onClick,
+  active,
 }: {
   label: string;
   onClick: () => void;
+  active?: boolean;
 }) {
   return (
     <button
       onClick={onClick}
-      className="text-left text-sm px-3 py-2 rounded-lg transition-all focus-visible:outline-none hover:bg-white/5 active:scale-[0.98]"
+      className={`text-left text-sm px-3 py-2 rounded-lg transition-all duration-300 ${
+        active ? "font-semibold" : ""
+      }`}
       style={{
         color: "var(--color-text)",
-        fontWeight: 500,
-        letterSpacing: "0.02em",
+        background: active
+          ? "color-mix(in oklab, var(--color-primary) 25%, transparent)"
+          : "transparent",
+        border: active
+          ? "1px solid color-mix(in oklab, var(--color-primary) 60%, transparent)"
+          : "1px solid transparent",
       }}
     >
       {label}

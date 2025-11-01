@@ -1,13 +1,13 @@
 // src/pages/LandingPage.tsx
 import Header from "../components/Sections/Header/Header";
-import { AppMenu } from "../components/AppMenu";  // 👈 con llaves
+import { AppMenu } from "../components/AppMenu";  
 import AboutMe from "../components/Sections/AboutMe/AboutMe";
 import MyProjects from "../components/Sections/MyProjects/MyProjects";
 import Contact from "../components/Sections/Contact/ContactForm";
 
 export default function LandingPage() {
   return (
-    <div className="w-full min-h-screen overflow-x-hidden bg-app text-app">
+    <div className="w-full min-h-screen overflow-x-hidden bg-white text-[#1a1a1a]">
       <Header />
 
       {/* flota sobre todo */}

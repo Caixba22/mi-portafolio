@@ -1,4 +1,3 @@
-// src/components/Sections/MyProjects/Cards/ProjectFront.tsx
 import React from "react";
 
 interface Props {
@@ -19,10 +18,8 @@ export default function ProjectFront({
   return (
     <div
       className="
-        flex flex-col
-        h-full
-        p-5
-        gap-5
+        flex flex-col h-full p-5 gap-5
+        bg-transparent
       "
     >
       {/* IMÁGENES */}
@@ -55,17 +52,12 @@ export default function ProjectFront({
           target="_blank"
           rel="noopener noreferrer"
           className="
-            inline-block
-            px-4 py-2
-            rounded-md
-            text-sm font-semibold
-            border
-            border-[color-mix(in_oklab,var(--color-primary)_55%,transparent)]
+            inline-block px-4 py-2 rounded-md text-sm font-semibold
+            border border-[color-mix(in_oklab,var(--color-primary)_55%,transparent)]
             bg-[color-mix(in_oklab,var(--color-primary)_12%,transparent)]
             text-[var(--color-primary)]
             transition
-            hover:bg-[var(--color-primary)]
-            hover:text-[var(--color-bg)]
+            hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]
             focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/60
           "
         >

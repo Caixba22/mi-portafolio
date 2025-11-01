@@ -1,4 +1,3 @@
-// src/components/Sections/MyProjects/Cards/ProjectBack.tsx
 import React from "react";
 
 interface Props {
@@ -10,10 +9,9 @@ export default function ProjectBack({ technologies }: Props) {
     <div
       className="
         flex flex-col items-center justify-center
-        h-full
-        p-6
+        h-full p-6 gap-4
         [transform:rotateY(180deg)]
-        gap-4
+        bg-transparent
       "
     >
       <h3 className="text-[var(--color-primary)] text-base font-semibold tracking-wide">
@@ -30,10 +28,9 @@ export default function ProjectBack({ technologies }: Props) {
           <li
             key={i}
             className="
-              bg-[color-mix(in_oklab,var(--color-surface)_35%,transparent)]
-              border border-[color-mix(in_oklab,var(--color-border)_70%,transparent)]
-              rounded-md
-              px-3 py-1
+              bg-[color-mix(in_oklab,var(--color-surface)_15%,transparent)]
+              border border-[color-mix(in_oklab,var(--color-border)_30%,transparent)]
+              rounded-md px-3 py-1
               text-sm font-medium
               text-[color-mix(in_oklab,var(--color-text)_85%,transparent)]
             "

@@ -1,4 +1,3 @@
-// src/components/Sections/MyProjects/Cards/ProjectCard.tsx
 import React from "react";
 import FlippableCard from "../../../UI/FlippableCard";
 import ProjectFront from "./ProjectFront";

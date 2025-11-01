@@ -22,8 +22,10 @@ interface MenuPanelProps {
   setLang: (l: "es" | "en") => void;
   theme: ThemeName;
   setTheme: (t: ThemeName) => void;
-  // lo dejamos readonly porque en AppMenu lo pasamos como const
+  // readonly porque viene de const
   themes: readonly ThemeName[];
+  // 👇 añadimos el prop que causaba el error
+  activeSection?: string | null;
 }
 
 export default function MenuPanel({
@@ -36,19 +38,20 @@ export default function MenuPanel({
   theme,
   setTheme,
   themes,
+  activeSection,
 }: MenuPanelProps) {
   if (!open) return null;
 
   return (
     <>
-      {/* backdrop */}
+      {/* Backdrop */}
       <div
         className="fixed inset-0 z-[998] animate-fadeIn"
         style={{ background: "rgba(0,0,0,.03)" }}
         onClick={onClose}
       />
 
-      {/* panel */}
+      {/* Panel flotante */}
       <aside
         className="fixed bottom-[5rem] right-5 z-[999] w-[280px] rounded-3xl overflow-hidden animate-slideUp"
         style={{
@@ -61,23 +64,24 @@ export default function MenuPanel({
         role="menu"
         aria-label="Menú flotante"
       >
-        {/* header con gradiente */}
+        {/* Header con gradiente */}
         <MenuHeader />
 
-        {/* contenido */}
+        {/* Contenido */}
         <div className="py-3" style={{ color: "var(--color-text)" }}>
-          {/* sección de navegación */}
-          <MenuNav labels={labels} onGoTo={onGoTo} />
+          {/* Sección de navegación */}
+          <MenuNav labels={labels} onGoTo={onGoTo} activeSection={activeSection} />
 
-          {/* divider */}
+          {/* Divider */}
           <div
             className="h-px my-3 mx-3"
             style={{
-              background: "linear-gradient(90deg, transparent, var(--color-border), transparent)",
+              background:
+                "linear-gradient(90deg, transparent, var(--color-border), transparent)",
             }}
           />
 
-          {/* preferencias: idioma + tema */}
+          {/* Preferencias: idioma + tema */}
           <MenuPrefs
             lang={lang}
             setLang={setLang}
@@ -86,7 +90,7 @@ export default function MenuPanel({
             themes={themes}
           />
 
-          {/* footer con ❤️ */}
+          {/* Footer con ❤️ */}
           <MenuFooter />
         </div>
       </aside>
