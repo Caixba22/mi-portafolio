@@ -27,30 +27,30 @@ export default function MyProjects() {
       title: lang === "es" ? "Music Visualizer 0.0" : "Music Visualizer 0.0",
       desc:
         lang === "es"
-          ? "Sitio 3D interactivo con React Three Fiber y animaciones suaves."
-          : "3D interactive site with React Three Fiber and smooth animations.",
+          ? "Página web que utiliza un modelo 3D de Blender con materiales emisivos. Al seleccionar una fuente de audio, el modelo visualiza las frecuencias a través de efectos de luz dinámicos. (Limitado solo a computadoras por políticas de seguridad de la API de audio)."
+          : "Website that uses a 3D Blender model with emissive materials. When you pick an audio source, the model visualizes the frequencies with dynamic light effects. (Desktop only due to audio API security policies.)",
       imgDesktop: "/pc_musicvisualizer.png",
       imgMobile: "/movil_musicvisualizer.jpg",
       link: "https://music-visualizer00.netlify.app/",
       technologies: ["React", "Three.js", "TypeScript", "CSS"],
     },
     {
-      title: lang === "es" ? "Mi Consultorio" : "My Clinic",
+      title: lang === "es" ? "Mi Consultorio" : "Mi Consultorio",
       desc:
         lang === "es"
-          ? "Aplicación full-stack con React, Node.js y MongoDB."
-          : "Full-stack app with React, Node.js and MongoDB.",
+          ? "Página web que simula el perfil de algún profesional de la salud, tiene una sección de ajustes para seleccionar algunas preferencias y un chat predeterminado que responde a preguntas frecuentes."
+          : "Website that simulates a health professional’s profile. It includes a settings section to choose a few preferences and a preset chat that answers common questions.",
       imgDesktop: "/pc_miconsultorio.png",
       imgMobile: "/movil_miconsultorio.jpg",
       link: "https://mipaginaweb-miconsultorio.netlify.app/",
       technologies: ["React", "Node.js", "Express", "MongoDB"],
     },
     {
-      title: lang === "es" ? "Mi Catálogo" : "My Catalog",
+      title: lang === "es" ? "Mi Catálogo" : "Mi Catálogo",
       desc:
         lang === "es"
-          ? "Dashboard con gráficas y consumo de API REST."
-          : "Dashboard with charts and REST API.",
+          ? "Página web para un pequeño negocio de ventas de distintos productos de catálogos, cuenta con una sección de gestión de productos solo para adminsitradores"
+          : "Website for a small shop that sells different catalog products, with an admin-only section to manage items.",
       imgDesktop: "/pc_micatalogo.png",
       imgMobile: "/movil_micatalogo.jpg",
       link: "https://mi-negocio-two.vercel.app/",
@@ -86,7 +86,6 @@ export default function MyProjects() {
           hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "
       >
-        {/* ✨ Halo dinámico alrededor del bloque */}
         <div
           className="
             absolute inset-0 rounded-2xl md:rounded-3xl
@@ -95,8 +94,6 @@ export default function MyProjects() {
             pointer-events-none
           "
         />
-
-        {/* 💎 Contenido principal */}
         <div className="relative z-10">
           <h2
             className="

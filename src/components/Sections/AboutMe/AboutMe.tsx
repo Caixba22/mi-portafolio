@@ -10,16 +10,23 @@ export default function AboutMe() {
           title: "Hola, soy",
           name: "Tu Nombre",
           desc:
-            "Desarrollador full-stack especializado en React, Three.js y experiencias 3D. Me apasiona combinar tecnología y diseño para crear interfaces elegantes y funcionales.",
+            "Estudiante de Ingeniería de Software en los últimos semestres. Busco un lugar para realizar mis prácticas profesionales, aportar al equipo y seguir aprendiendo. Me gusta diseñar interfaces claras y responsivas; puedo trabajar sin problema en cualquier fase del ciclo de vida del software.",
           cv: "Descargar CV",
         }
       : {
           title: "Hi, I'm",
           name: "Your Name",
           desc:
-            "Full-stack developer specialized in React, Three.js and immersive 3D experiences. I love blending technology and design to create elegant, functional UIs.",
+            "Software Engineering student in my final semesters. I'm looking for an internship to contribute to the team and keep learning. I design clear, responsive UIs and I'm comfortable working across any stage of the software lifecycle.",
           cv: "Download CV",
         };
+
+  // Estilo del “highlight”
+  const hiClass =
+    "font-semibold bg-clip-text text-transparent " +
+    "bg-[linear-gradient(90deg,var(--color-primary),#60a5fa)] " +
+    "underline decoration-[color-mix(in_oklab,var(--color-primary)_60%,transparent)] " +
+    "decoration-2 underline-offset-4 drop-shadow";
 
   return (
     <section
@@ -47,7 +54,7 @@ export default function AboutMe() {
           hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "
       >
-        {/* ✨ Halo dinámico alrededor del bloque */}
+        {/* ✨ Halo dinámico */}
         <div
           className="
             absolute inset-0 rounded-2xl md:rounded-3xl
@@ -103,7 +110,28 @@ export default function AboutMe() {
               {strings.name}
             </span>
           </h2>
-          <p className="opacity-90">{strings.desc}</p>
+
+          {lang === "es" ? (
+            <p className="opacity-90">
+              Estudiante de{" "}
+              <span className={hiClass}>Ingeniería de Software</span> en los
+              últimos semestres. Busco un lugar para realizar mis prácticas
+              profesionales, aportar al equipo y seguir aprendiendo. Me gusta
+              diseñar interfaces claras y responsivas; puedo trabajar sin
+              problema en cualquier fase del ciclo de vida del software.
+              <br />
+              Más que un estudiante, un pensador.
+            </p>
+          ) : (
+            <p className="opacity-90">
+              <span className={hiClass}>Software Engineering</span> student in
+              my final semesters. I’m looking for an internship to contribute to
+              the team and keep learning. I design clear, responsive UIs and I’m
+              comfortable working across any stage of the software lifecycle.
+              <br />
+              More than a student, a thinker.
+            </p>
+          )}
         </div>
       </div>
     </section>

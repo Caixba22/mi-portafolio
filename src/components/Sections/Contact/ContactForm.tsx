@@ -1,7 +1,41 @@
 // src/components/Sections/Contact/ContactForm.tsx
 import React, { useState } from "react";
+import { useUI } from "../../../context/uiContext";
 
 export default function ContactForm() {
+  const { lang } = useUI();
+
+  const strings =
+    lang === "es"
+      ? {
+          title: "Contáctame",
+          nameLabel: "Nombre",
+          namePh: "Tu nombre",
+          emailLabel: "Correo",
+          emailPh: "tucorreo@ejemplo.com",
+          msgLabel: "Mensaje",
+          msgPh: "Escribe tu mensaje aquí...",
+          submit: "Enviar mensaje",
+          alert: "Gracias por tu mensaje. Te contactaré pronto 🚀",
+          sentLog: "Mensaje enviado:",
+          privacy:
+            "🔒 Descuida: no almacenamos tu información. Tu mensaje no se guarda en ningún servidor.",
+        }
+      : {
+          title: "Contact me",
+          nameLabel: "Name",
+          namePh: "Your name",
+          emailLabel: "Email",
+          emailPh: "you@example.com",
+          msgLabel: "Message",
+          msgPh: "Write your message here...",
+          submit: "Send message",
+          alert: "Thanks for your message. I’ll get back to you soon 🚀",
+          sentLog: "Message sent:",
+          privacy:
+            "🔒 Don’t worry: we don’t store your information. Your message isn’t saved on any server.",
+        };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,8 +50,8 @@ export default function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Mensaje enviado:", formData);
-    alert("Gracias por tu mensaje. Te contactaré pronto 🚀");
+    console.log(strings.sentLog, formData);
+    alert(strings.alert);
     setFormData({ name: "", email: "", message: "" });
   };
 
@@ -66,14 +100,14 @@ export default function ContactForm() {
               text-center font-semibold
             "
           >
-            Contáctame
+            {strings.title}
           </h2>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             {/* Nombre */}
             <div className="flex flex-col gap-2">
               <label className="font-medium text-[#1a1a1a]" htmlFor="name">
-                Nombre
+                {strings.nameLabel}
               </label>
               <input
                 id="name"
@@ -81,7 +115,7 @@ export default function ContactForm() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Tu nombre"
+                placeholder={strings.namePh}
                 required
                 className="
                   px-4 py-3 rounded-lg
@@ -99,7 +133,7 @@ export default function ContactForm() {
             {/* Correo */}
             <div className="flex flex-col gap-2">
               <label className="font-medium text-[#1a1a1a]" htmlFor="email">
-                Correo
+                {strings.emailLabel}
               </label>
               <input
                 id="email"
@@ -107,7 +141,7 @@ export default function ContactForm() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="tucorreo@ejemplo.com"
+                placeholder={strings.emailPh}
                 required
                 className="
                   px-4 py-3 rounded-lg
@@ -125,14 +159,14 @@ export default function ContactForm() {
             {/* Mensaje */}
             <div className="flex flex-col gap-2">
               <label className="font-medium text-[#1a1a1a]" htmlFor="message">
-                Mensaje
+                {strings.msgLabel}
               </label>
               <textarea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Escribe tu mensaje aquí..."
+                placeholder={strings.msgPh}
                 required
                 rows={5}
                 className="
@@ -166,8 +200,13 @@ export default function ContactForm() {
                 focus:ring-offset-2 focus:ring-offset-white
               "
             >
-              Enviar mensaje
+              {strings.submit}
             </button>
+
+            {/* Nota de privacidad */}
+            <p className="text-xs text-gray-600/90 mt-3 text-center">
+              {strings.privacy}
+            </p>
           </form>
         </div>
       </div>

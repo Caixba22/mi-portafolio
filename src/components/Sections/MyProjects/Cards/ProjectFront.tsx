@@ -1,4 +1,6 @@
+// src/components/Sections/MyProjects/Cards/ProjectFront.tsx
 import React from "react";
+import { useUI } from "../../../../context/uiContext"; // 👈 para leer el idioma
 
 interface Props {
   title: string;
@@ -15,10 +17,14 @@ export default function ProjectFront({
   imgMobile,
   link,
 }: Props) {
+  const { lang } = useUI();
+  const btnLabel = lang === "es" ? "Visitar sitio →" : "Visit Site →"; // 👈 dinámico
+
   return (
     <div
       className="
-        flex flex-col h-full p-5 gap-5
+        grid grid-rows-[auto,1fr,auto]
+        h-full p-5 gap-4
         bg-transparent
       "
     >
@@ -36,34 +42,39 @@ export default function ProjectFront({
         />
       </div>
 
-      {/* TEXTO + BOTÓN */}
-      <div className="flex flex-col gap-4 pb-2">
-        <div>
-          <h3 className="text-[var(--color-primary)] text-lg font-semibold tracking-tight mb-2">
-            {title}
-          </h3>
-          <p className="text-app/90 text-sm leading-relaxed">
-            {desc}
-          </p>
-        </div>
-
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-            inline-block px-4 py-2 rounded-md text-sm font-semibold
-            border border-[color-mix(in_oklab,var(--color-primary)_55%,transparent)]
-            bg-[color-mix(in_oklab,var(--color-primary)_12%,transparent)]
-            text-[var(--color-primary)]
-            transition
-            hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]
-            focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/60
-          "
-        >
-          Visit Site →
-        </a>
+      {/* TEXTO SCROLLEABLE */}
+      <div
+        className="min-h-0 overflow-y-auto pr-2"
+        onClick={(e) => e.stopPropagation()}         // no dispares el flip al intentar scroll
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
+        <h3 className="text-[var(--color-primary)] text-lg font-semibold tracking-tight mb-2">
+          {title}
+        </h3>
+        <p className="text-app/90 text-sm leading-relaxed">
+          {desc}
+        </p>
       </div>
+
+      {/* BOTÓN SIEMPRE ABAJO */}
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}         // que el click vaya al link, no al flip
+        className="
+          inline-block px-4 py-2 rounded-md text-sm font-semibold
+          border border-[color-mix(in_oklab,var(--color-primary)_55%,transparent)]
+          bg-[color-mix(in_oklab,var(--color-primary)_12%,transparent)]
+          text-[var(--color-primary)]
+          transition
+          hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]
+          focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/60
+        "
+      >
+        {btnLabel}
+      </a>
     </div>
   );
 }
