@@ -1,6 +1,13 @@
 // src/components/Sections/Contact/ContactForm.tsx
+
 import React, { useState } from "react";
 import { useUI } from "../../../context/uiContext";
+
+// ⚠️ Clave pública de Web3Forms desde el .env.local
+// .env.local:
+// VITE_PUBLIC_WEB3FORMS_KEY=tu_clave_de_web3forms
+const WEB3FORMS_ACCESS_KEY =
+  (import.meta.env.VITE_PUBLIC_WEB3FORMS_KEY as string | undefined) ?? "";
 
 export default function ContactForm() {
   const { lang } = useUI();
@@ -16,10 +23,11 @@ export default function ContactForm() {
           msgLabel: "Mensaje",
           msgPh: "Escribe tu mensaje aquí...",
           submit: "Enviar mensaje",
-          alert: "Gracias por tu mensaje. Te contactaré pronto 🚀",
-          sentLog: "Mensaje enviado:",
+          alertSuccess: "Gracias por tu mensaje. Te contactaré pronto 🚀",
+          alertError:
+            "Hubo un error al enviar el mensaje. Intenta de nuevo.",
           privacy:
-            "🔒 Descuida: no almacenamos tu información. Tu mensaje no se guarda en ningún servidor.",
+            "🔒 Descuida: tu información no será compartida por ningún motivo.",
         }
       : {
           title: "Contact me",
@@ -30,17 +38,24 @@ export default function ContactForm() {
           msgLabel: "Message",
           msgPh: "Write your message here...",
           submit: "Send message",
-          alert: "Thanks for your message. I’ll get back to you soon 🚀",
-          sentLog: "Message sent:",
+          alertSuccess:
+            "Thanks for your message. I’ll get back to you soon 🚀",
+          alertError:
+            "There was an error sending your message. Please try again.",
           privacy:
-            "🔒 Don’t worry: we don’t store your information. Your message isn’t saved on any server.",
+            "🔒 Don’t worry: your information will not be shared under any circumstances.",
         };
 
+  // Estado para inputs controlados
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  // Estado para feedback y envío
+  const [result, setResult] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -48,11 +63,56 @@ export default function ContactForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(strings.sentLog, formData);
-    alert(strings.alert);
-    setFormData({ name: "", email: "", message: "" });
+
+    if (!WEB3FORMS_ACCESS_KEY) {
+      console.error("❌ Falta VITE_PUBLIC_WEB3FORMS_KEY en .env.local");
+      setResult(strings.alertError);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setResult("");
+
+    const formElement = e.currentTarget;
+    const formDataWeb3 = new FormData(formElement);
+
+    // Campos obligatorios para Web3Forms
+    formDataWeb3.append("access_key", WEB3FORMS_ACCESS_KEY);
+    // Puedes agregar campos meta:
+    formDataWeb3.append(
+      "subject",
+      "Nuevo mensaje desde el portafolio"
+    );
+    formDataWeb3.append("from_name", formData.name);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataWeb3,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log("✅ Web3Forms success:", data);
+        setResult(strings.alertSuccess);
+        setFormData({ name: "", email: "", message: "" });
+        formElement.reset();
+      } else {
+        console.error("❌ Web3Forms error:", data);
+        setResult(
+          strings.alertError +
+            (data.message ? ` (${data.message})` : "")
+        );
+      }
+    } catch (error) {
+      console.error("❌ Fetch Error:", error);
+      setResult(strings.alertError);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -106,7 +166,10 @@ export default function ContactForm() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             {/* Nombre */}
             <div className="flex flex-col gap-2">
-              <label className="font-medium text-[#1a1a1a]" htmlFor="name">
+              <label
+                className="font-medium text-[#1a1a1a]"
+                htmlFor="name"
+              >
                 {strings.nameLabel}
               </label>
               <input
@@ -132,7 +195,10 @@ export default function ContactForm() {
 
             {/* Correo */}
             <div className="flex flex-col gap-2">
-              <label className="font-medium text-[#1a1a1a]" htmlFor="email">
+              <label
+                className="font-medium text-[#1a1a1a]"
+                htmlFor="email"
+              >
                 {strings.emailLabel}
               </label>
               <input
@@ -158,7 +224,10 @@ export default function ContactForm() {
 
             {/* Mensaje */}
             <div className="flex flex-col gap-2">
-              <label className="font-medium text-[#1a1a1a]" htmlFor="message">
+              <label
+                className="font-medium text-[#1a1a1a]"
+                htmlFor="message"
+              >
                 {strings.msgLabel}
               </label>
               <textarea
@@ -182,9 +251,26 @@ export default function ContactForm() {
               />
             </div>
 
+            {/* Mensaje de resultado */}
+            {result && (
+              <p
+                className={`
+                  text-center text-sm font-medium pt-2
+                  ${
+                    result === strings.alertSuccess
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }
+                `}
+              >
+                {result}
+              </p>
+            )}
+
             {/* Botón */}
             <button
               type="submit"
+              disabled={isSubmitting}
               className="
                 mt-2
                 inline-flex items-center justify-center
@@ -198,9 +284,10 @@ export default function ContactForm() {
                 focus:outline-none
                 focus:ring-2 focus:ring-[var(--color-primary)]
                 focus:ring-offset-2 focus:ring-offset-white
+                disabled:opacity-60 disabled:cursor-not-allowed
               "
             >
-              {strings.submit}
+              {isSubmitting ? "Enviando..." : strings.submit}
             </button>
 
             {/* Nota de privacidad */}

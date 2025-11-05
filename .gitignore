@@ -1,4 +1,10 @@
-# Logs
+# .gitignore
+
+# 🛑 ¡CRUCIAL PARA LA SEGURIDAD! Ignorar todos los archivos de entorno local.
+.env.local
+.env*.local
+
+# --- Reglas Generales de Logs y Build (Basado en lo que tenías) ---
 logs
 *.log
 npm-debug.log*
@@ -7,15 +13,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Directorios de dependencias y build
 node_modules
-dist
-dist-ssr
-*.local
+/dist
+/dist-ssr
+/build
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# --- Archivos de Editor/Sistema ---
+.vscode/
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
