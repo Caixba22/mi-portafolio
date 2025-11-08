@@ -1,22 +1,13 @@
-//src/components/AppMenu/MenuPrefs.tsx
-import React, { useState } from "react";
+// src/components/AppMenu/MenuPrefs.tsx
+import React, { useState, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useUI } from "../../context/uiContext";
+import { themes } from "../../styles/theme.config"; // ✅ centralizado
+import type { ThemeName } from "../../styles/theme.config"; // ✅ type-only import
 
-type ThemeName = "ocean" | "sunset" | "forest";
+export default function MenuPrefs() {
+  const { lang, setLang, theme, setTheme } = useUI();
 
-export default function MenuPrefs({
-  lang,
-  setLang,
-  theme,
-  setTheme,
-  themes,
-}: {
-  lang: "es" | "en";
-  setLang: (l: "es" | "en") => void;
-  theme: ThemeName;
-  setTheme: (t: ThemeName) => void;
-  themes: readonly ThemeName[];
-}) {
   return (
     <>
       <p
@@ -33,7 +24,7 @@ export default function MenuPrefs({
         <LangButton label="ES" active={lang === "es"} onClick={() => setLang("es")} />
         <LangButton label="EN" active={lang === "en"} onClick={() => setLang("en")} />
 
-        {/* Selector de tema personalizado */}
+        {/* Selector de tema */}
         <div className="ml-auto">
           <ThemeSelect theme={theme} setTheme={setTheme} themes={themes} />
         </div>
@@ -85,18 +76,24 @@ function ThemeSelect({
 }) {
   const [open, setOpen] = useState(false);
   const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const [position, setPosition] = useState<"up" | "down">("down");
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleToggle = () => {
     if (!open && buttonRef.current) {
-      setButtonRect(buttonRef.current.getBoundingClientRect());
+      const rect = buttonRef.current.getBoundingClientRect();
+      setButtonRect(rect);
+
+      // 📏 Verifica espacio disponible en pantalla
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const dropdownHeight = themes.length * 32 + 16; // altura estimada
+      setPosition(spaceBelow < dropdownHeight ? "up" : "down");
     }
     setOpen(!open);
   };
 
   return (
     <>
-      {/* Botón principal */}
       <button
         ref={buttonRef}
         onClick={handleToggle}
@@ -119,14 +116,18 @@ function ThemeSelect({
         <span className="ml-auto text-[10px] opacity-55">▼</span>
       </button>
 
-      {/* Renderizar menú fuera del panel usando Portal */}
       {open && buttonRect &&
         createPortal(
           <div
-            className="fixed z-[2000] rounded-xl border shadow-lg overflow-hidden"
+            className={`fixed z-[2000] rounded-xl border shadow-lg overflow-auto max-h-[50vh] 
+              transition-all duration-200 ease-out
+              ${position === "up" ? "animate-slideUp" : "animate-slideDown"}`}
             style={{
-              top: buttonRect.bottom + 4 + "px",
-              left: buttonRect.right - 128 + "px", // ajusta ancho (128px = w-32)
+              top:
+                position === "down"
+                  ? buttonRect.bottom + 4
+                  : buttonRect.top - (themes.length * 32 + 16),
+              left: buttonRect.right - 128,
               width: "128px",
               background:
                 "color-mix(in oklab, var(--color-bg-soft) 70%, transparent)",

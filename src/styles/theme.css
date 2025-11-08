@@ -1,56 +1,89 @@
 /* src/styles/theme.css */
+/* ========= VARIABLES BASE ========= */
 :root {
-  /* Tema por defecto (ocean) */
-  --color-bg: #061923;
-  --color-bg-soft: #071f2b;          /* 👈 un pelito más claro/oscuro */
-  --color-surface: #0b2a3a;
-  --color-text: #e6f6ff;
+  --color-bg: #fff;
+  --color-bg-soft: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #111;
   --color-primary: #00b4ff;
   --color-secondary: #38bdf8;
   --color-accent: #14b8a6;
+  --color-border: rgba(0, 0, 0, 0.1);
+}
+
+/* ========= MODO CLARO ========= */
+[data-mode="light"] {
+  --color-bg: #f7f8fa;
+  --color-bg-soft: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #1f2937;
+  --color-border: rgba(0, 0, 0, 0.1);
+}
+
+/* ========= MODO OSCURO ========= */
+[data-mode="dark"] {
+  --color-bg: #0d1117;
+  --color-bg-soft: #161b22;
+  --color-surface: #1c2128;
+  --color-text: #e6edf3;
   --color-border: rgba(255, 255, 255, 0.12);
 }
 
-/* Tema: ocean */
+/* ========= TEMAS ========= */
+
+/* 🌊 Ocean */
 [data-theme="ocean"] {
-  --color-bg: #061923;
-  --color-bg-soft: #071f2b;
-  --color-surface: #0b2a3a;
-  --color-text: #e6f6ff;
   --color-primary: #00b4ff;
   --color-secondary: #38bdf8;
   --color-accent: #14b8a6;
-  --color-border: rgba(255, 255, 255, 0.12);
 }
 
-/* Tema: sunset */
+/* 🌅 Sunset */
 [data-theme="sunset"] {
-  --color-bg: #1c0b0f;
-  --color-bg-soft: #220e14;          /* 👈 un tono cercano para secciones alternas */
-  --color-surface: #311018;
-  --color-text: #ffeae6;
   --color-primary: #ff6b6b;
   --color-secondary: #ff9f43;
   --color-accent: #ffd93d;
-  --color-border: rgba(255, 255, 255, 0.12);
 }
 
-/* Tema: forest */
+/* 🌲 Forest */
 [data-theme="forest"] {
-  --color-bg: #0c1610;
-  --color-bg-soft: #0f1a13;          /* 👈 poquito más claro/oscuro */
-  --color-surface: #112018;
-  --color-text: #e8ffe8;
   --color-primary: #22c55e;
   --color-secondary: #16a34a;
   --color-accent: #84cc16;
-  --color-border: rgba(255, 255, 255, 0.12);
 }
 
-/* Utilidades semánticas (para no repetir) */
+/* 🪨 Graphite */
+[data-theme="graphite"] {
+  --color-primary: #9ca3af;
+  --color-secondary: #71717a;
+  --color-accent: #a1a1aa;
+}
+
+/* 🏜️ Sand */
+[data-theme="sand"] {
+  --color-primary: #d1a77a;
+  --color-secondary: #c9b39a;
+  --color-accent: #bfa27a;
+}
+
+/* 🌌 Midnight */
+[data-theme="midnight"] {
+  --color-primary: #6366f1;
+  --color-secondary: #4338ca;
+  --color-accent: #8b5cf6;
+}
+
+/* 🍇 Plum */
+[data-theme="plum"] {
+  --color-primary: #c084fc;
+  --color-secondary: #a855f7;
+  --color-accent: #e879f9;
+}
+
+/* ========= UTILIDADES ========= */
 @layer utilities {
   .bg-app { background: var(--color-bg); }
-  .bg-app-soft { background: var(--color-bg-soft); }  /* 👈 NUEVA */
+  .bg-app-soft { background: var(--color-bg-soft); }
   .bg-surface { background: var(--color-surface); }
 
   .text-app { color: var(--color-text); }
