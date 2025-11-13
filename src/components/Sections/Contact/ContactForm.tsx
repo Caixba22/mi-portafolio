@@ -1,9 +1,11 @@
 // src/components/Sections/Contact/ContactForm.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUI } from "../../../context/uiContext";
 
 const WEB3FORMS_ACCESS_KEY =
   (import.meta.env.VITE_PUBLIC_WEB3FORMS_KEY as string | undefined) ?? "";
+
+type ResultStatus = "" | "success" | "error";
 
 export default function ContactForm() {
   const { lang } = useUI();
@@ -24,6 +26,7 @@ export default function ContactForm() {
             "Hubo un error al enviar el mensaje. Intenta de nuevo.",
           privacy:
             "🔒 Descuida: tu información no será compartida por ningún motivo.",
+          subject: "Nuevo mensaje desde el portafolio",
         }
       : {
           title: "Contact me",
@@ -40,6 +43,7 @@ export default function ContactForm() {
             "There was an error sending your message. Please try again.",
           privacy:
             "🔒 Don’t worry: your information will not be shared under any circumstances.",
+          subject: "New message from portfolio",
         };
 
   const [formData, setFormData] = useState({
@@ -48,8 +52,22 @@ export default function ContactForm() {
     message: "",
   });
 
-  const [result, setResult] = useState("");
+  // En vez de guardar el texto, guardamos el tipo de resultado
+  const [resultStatus, setResultStatus] = useState<ResultStatus>("");
+  const [backendMessage, setBackendMessage] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // ⏱️ Oculta el mensaje automáticamente a los 5 segundos
+  useEffect(() => {
+    if (!resultStatus) return;
+
+    const timer = setTimeout(() => {
+      setResultStatus("");
+      setBackendMessage("");
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [resultStatus]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -62,18 +80,20 @@ export default function ContactForm() {
 
     if (!WEB3FORMS_ACCESS_KEY) {
       console.error("❌ Falta VITE_PUBLIC_WEB3FORMS_KEY en .env.local");
-      setResult(strings.alertError);
+      setResultStatus("error");
+      setBackendMessage("");
       return;
     }
 
     setIsSubmitting(true);
-    setResult("");
+    setResultStatus("");
+    setBackendMessage("");
 
     const formElement = e.currentTarget;
     const formDataWeb3 = new FormData(formElement);
 
     formDataWeb3.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formDataWeb3.append("subject", "Nuevo mensaje desde el portafolio");
+    formDataWeb3.append("subject", strings.subject); // 👈 sujeto según idioma
     formDataWeb3.append("from_name", formData.name);
 
     try {
@@ -86,20 +106,31 @@ export default function ContactForm() {
 
       if (data.success) {
         console.log("✅ Web3Forms success:", data);
-        setResult(strings.alertSuccess);
+        setResultStatus("success");
+        setBackendMessage("");
         setFormData({ name: "", email: "", message: "" });
         formElement.reset();
       } else {
         console.error("❌ Web3Forms error:", data);
-        setResult(strings.alertError + (data.message ? ` (${data.message})` : ""));
+        setResultStatus("error");
+        setBackendMessage(data.message ?? "");
       }
     } catch (error) {
       console.error("❌ Fetch Error:", error);
-      setResult(strings.alertError);
+      setResultStatus("error");
+      setBackendMessage("");
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Texto final mostrado según idioma actual + tipo de resultado
+  const resultText =
+    resultStatus === "success"
+      ? strings.alertSuccess
+      : resultStatus === "error"
+      ? strings.alertError + (backendMessage ? ` (${backendMessage})` : "")
+      : "";
 
   return (
     <section
@@ -232,7 +263,7 @@ export default function ContactForm() {
                   px-4 py-3 rounded-lg
                   border
                   outline-none text-base resize-none
-                  transition-all duration-200
+                  transition-all duración-200
                   focus:border-[var(--color-primary)]
                   focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-primary)_45%,transparent)]
                 "
@@ -245,16 +276,16 @@ export default function ContactForm() {
               />
             </div>
 
-            {/* Resultado */}
-            {result && (
+            {/* Resultado (se re-traduce según lang actual) */}
+            {resultStatus !== "" && (
               <p
                 className={`text-center text-sm font-medium pt-2 ${
-                  result === strings.alertSuccess
+                  resultStatus === "success"
                     ? "text-green-500"
                     : "text-red-500"
                 }`}
               >
-                {result}
+                {resultText}
               </p>
             )}
 

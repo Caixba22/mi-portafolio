@@ -1,5 +1,6 @@
 // src/components/Sections/AboutMe/AboutMe.tsx
 import { useUI } from "../../../context/uiContext";
+import Buttons from "./components/Buttons";
 
 export default function AboutMe() {
   const { lang } = useUI();
@@ -91,28 +92,8 @@ export default function AboutMe() {
             />
           </div>
 
-          <a
-            href="/cv.pdf"
-            download
-            className="
-              inline-flex items-center justify-center
-              px-5 py-2.5 rounded-lg
-              font-semibold text-base
-              transition-all duration-200
-              hover:brightness-110 hover:-translate-y-0.5
-              focus:outline-none
-              focus:ring-2 focus:ring-[var(--color-primary)]
-              focus:ring-offset-2
-            "
-            style={{
-              background: "var(--color-primary)",
-              color: "var(--color-bg)",
-              boxShadow:
-                "0 4px 12px color-mix(in oklab, var(--color-primary) 40%, transparent)",
-            }}
-          >
-            {strings.cv}
-          </a>
+          {/* 👉 Nuevo “botón doble” Ver / Descargar */}
+          <Buttons pdfPath="/cv.pdf" />
         </div>
 
         {/* 💬 Texto */}
