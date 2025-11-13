@@ -2,11 +2,11 @@
 import React, { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useUI } from "../../context/uiContext";
-import { themes } from "../../styles/theme.config"; // ✅ centralizado
-import type { ThemeName } from "../../styles/theme.config"; // ✅ type-only import
+import { themes } from "../../styles/theme.config";
+import type { ThemeName } from "../../styles/theme.config";
 
 export default function MenuPrefs() {
-  const { lang, setLang, theme, setTheme } = useUI();
+  const { lang, setLang, theme, setTheme, mode, setMode } = useUI();
 
   return (
     <>
@@ -19,14 +19,47 @@ export default function MenuPrefs() {
         Preferencias
       </p>
 
-      <div className="px-3 flex items-center gap-2 mb-3">
-        {/* Botones de idioma */}
-        <LangButton label="ES" active={lang === "es"} onClick={() => setLang("es")} />
-        <LangButton label="EN" active={lang === "en"} onClick={() => setLang("en")} />
+      <div className="px-3 flex flex-col gap-3 mb-3">
+        {/* 🌐 Idioma */}
+        <div className="flex items-center justify-between">
+          <span
+            className="text-[10px] uppercase tracking-wide opacity-60"
+            style={{ color: "var(--color-text)" }}
+          >
+            Idioma
+          </span>
+          <div className="flex gap-1">
+            <LangButton label="ES" active={lang === "es"} onClick={() => setLang("es")} />
+            <LangButton label="EN" active={lang === "en"} onClick={() => setLang("en")} />
+            {/* Ejemplo: si luego agregas más idiomas, aquí caben fácilmente */}
+          </div>
+        </div>
 
-        {/* Selector de tema */}
-        <div className="ml-auto">
-          <ThemeSelect theme={theme} setTheme={setTheme} themes={themes} />
+        {/* 🌓 Modo */}
+        <div className="flex items-center justify-between">
+          <span
+            className="text-[10px] uppercase tracking-wide opacity-60"
+            style={{ color: "var(--color-text)" }}
+          >
+            Modo
+          </span>
+          <div className="flex gap-1">
+            <ModeButton label="☀️" active={mode === "light"} onClick={() => setMode("light")} />
+            <ModeButton label="🌙" active={mode === "dark"} onClick={() => setMode("dark")} />
+          </div>
+        </div>
+
+        {/* 🎨 Tema */}
+        <div className="flex items-center justify-between">
+          <span
+            className="text-[10px] uppercase tracking-wide opacity-60"
+            style={{ color: "var(--color-text)" }}
+          >
+            Tema
+          </span>
+          <div className="flex-shrink-0">
+            <ThemeSelect theme={theme} setTheme={setTheme} themes={themes} />
+          </div>
         </div>
       </div>
     </>
@@ -48,7 +81,7 @@ function LangButton({
   return (
     <button
       onClick={onClick}
-      className="px-3 py-[5px] rounded-lg text-xs font-medium transition"
+      className="px-2 py-[4px] rounded-md text-[11px] font-medium transition"
       style={{
         border: "1px solid var(--color-border)",
         background: active
@@ -56,6 +89,36 @@ function LangButton({
           : "color-mix(in oklab, var(--color-bg-soft) 35%, transparent)",
         color: "var(--color-text)",
       }}
+    >
+      {label}
+    </button>
+  );
+}
+
+/* ==============================
+   COMPONENTE: Botón de modo
+   ============================== */
+function ModeButton({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="px-[6px] py-[4px] rounded-md text-[12px] transition"
+      style={{
+        border: "1px solid var(--color-border)",
+        background: active
+          ? "color-mix(in oklab, var(--color-accent) 32%, transparent)"
+          : "color-mix(in oklab, var(--color-bg-soft) 35%, transparent)",
+        color: "var(--color-text)",
+      }}
+      title={label === "☀️" ? "Modo claro" : "Modo oscuro"}
     >
       {label}
     </button>
@@ -83,10 +146,8 @@ function ThemeSelect({
     if (!open && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setButtonRect(rect);
-
-      // 📏 Verifica espacio disponible en pantalla
       const spaceBelow = window.innerHeight - rect.bottom;
-      const dropdownHeight = themes.length * 32 + 16; // altura estimada
+      const dropdownHeight = themes.length * 32 + 16;
       setPosition(spaceBelow < dropdownHeight ? "up" : "down");
     }
     setOpen(!open);

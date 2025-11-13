@@ -1,11 +1,7 @@
 // src/components/Sections/Contact/ContactForm.tsx
-
 import React, { useState } from "react";
 import { useUI } from "../../../context/uiContext";
 
-// ⚠️ Clave pública de Web3Forms desde el .env.local
-// .env.local:
-// VITE_PUBLIC_WEB3FORMS_KEY=tu_clave_de_web3forms
 const WEB3FORMS_ACCESS_KEY =
   (import.meta.env.VITE_PUBLIC_WEB3FORMS_KEY as string | undefined) ?? "";
 
@@ -46,14 +42,12 @@ export default function ContactForm() {
             "🔒 Don’t worry: your information will not be shared under any circumstances.",
         };
 
-  // Estado para inputs controlados
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  // Estado para feedback y envío
   const [result, setResult] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -78,13 +72,8 @@ export default function ContactForm() {
     const formElement = e.currentTarget;
     const formDataWeb3 = new FormData(formElement);
 
-    // Campos obligatorios para Web3Forms
     formDataWeb3.append("access_key", WEB3FORMS_ACCESS_KEY);
-    // Puedes agregar campos meta:
-    formDataWeb3.append(
-      "subject",
-      "Nuevo mensaje desde el portafolio"
-    );
+    formDataWeb3.append("subject", "Nuevo mensaje desde el portafolio");
     formDataWeb3.append("from_name", formData.name);
 
     try {
@@ -102,10 +91,7 @@ export default function ContactForm() {
         formElement.reset();
       } else {
         console.error("❌ Web3Forms error:", data);
-        setResult(
-          strings.alertError +
-            (data.message ? ` (${data.message})` : "")
-        );
+        setResult(strings.alertError + (data.message ? ` (${data.message})` : ""));
       }
     } catch (error) {
       console.error("❌ Fetch Error:", error);
@@ -122,7 +108,8 @@ export default function ContactForm() {
         w-full
         py-20 px-4 sm:px-6 lg:px-8
         flex justify-center
-        bg-transparent text-[#1a1a1a]
+        bg-transparent
+        text-[var(--color-text)]
       "
     >
       <div
@@ -131,16 +118,20 @@ export default function ContactForm() {
           w-[min(100%,52rem)]
           mx-auto
           rounded-2xl md:rounded-3xl
-          border border-[color-mix(in_oklab,var(--color-primary)_30%,rgba(0,0,0,0.08))]
+          border
           shadow-[0_18px_45px_rgba(0,0,0,0.15)]
-          bg-[rgba(255,255,255,0.65)]
           backdrop-blur-md
           px-6 sm:px-10 py-12
           transition-all duration-300
           hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "
+        style={{
+          borderColor: "var(--color-border)",
+          background:
+            "color-mix(in oklab, var(--color-surface) 75%, transparent)",
+        }}
       >
-        {/* ✨ Halo dinámico alrededor del bloque */}
+        {/* ✨ Halo dinámico */}
         <div
           className="
             absolute inset-0 rounded-2xl md:rounded-3xl
@@ -166,10 +157,7 @@ export default function ContactForm() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             {/* Nombre */}
             <div className="flex flex-col gap-2">
-              <label
-                className="font-medium text-[#1a1a1a]"
-                htmlFor="name"
-              >
+              <label className="font-medium" htmlFor="name">
                 {strings.nameLabel}
               </label>
               <input
@@ -182,23 +170,24 @@ export default function ContactForm() {
                 required
                 className="
                   px-4 py-3 rounded-lg
-                  border border-[color-mix(in_oklab,var(--color-primary)_25%,rgba(0,0,0,0.08))]
-                  bg-[rgba(255,255,255,0.75)]
-                  text-[#1a1a1a] outline-none text-base
-                  placeholder:text-gray-500
+                  border
+                  outline-none text-base
                   transition-all duration-200
                   focus:border-[var(--color-primary)]
                   focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-primary)_45%,transparent)]
                 "
+                style={{
+                  borderColor: "var(--color-border)",
+                  background:
+                    "color-mix(in oklab, var(--color-bg-soft) 75%, transparent)",
+                  color: "var(--color-text)",
+                }}
               />
             </div>
 
             {/* Correo */}
             <div className="flex flex-col gap-2">
-              <label
-                className="font-medium text-[#1a1a1a]"
-                htmlFor="email"
-              >
+              <label className="font-medium" htmlFor="email">
                 {strings.emailLabel}
               </label>
               <input
@@ -211,23 +200,24 @@ export default function ContactForm() {
                 required
                 className="
                   px-4 py-3 rounded-lg
-                  border border-[color-mix(in_oklab,var(--color-primary)_25%,rgba(0,0,0,0.08))]
-                  bg-[rgba(255,255,255,0.75)]
-                  text-[#1a1a1a] outline-none text-base
-                  placeholder:text-gray-500
+                  border
+                  outline-none text-base
                   transition-all duration-200
                   focus:border-[var(--color-primary)]
                   focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-primary)_45%,transparent)]
                 "
+                style={{
+                  borderColor: "var(--color-border)",
+                  background:
+                    "color-mix(in oklab, var(--color-bg-soft) 75%, transparent)",
+                  color: "var(--color-text)",
+                }}
               />
             </div>
 
             {/* Mensaje */}
             <div className="flex flex-col gap-2">
-              <label
-                className="font-medium text-[#1a1a1a]"
-                htmlFor="message"
-              >
+              <label className="font-medium" htmlFor="message">
                 {strings.msgLabel}
               </label>
               <textarea
@@ -240,28 +230,29 @@ export default function ContactForm() {
                 rows={5}
                 className="
                   px-4 py-3 rounded-lg
-                  border border-[color-mix(in_oklab,var(--color-primary)_25%,rgba(0,0,0,0.08))]
-                  bg-[rgba(255,255,255,0.75)]
-                  text-[#1a1a1a] outline-none text-base resize-none
-                  placeholder:text-gray-500
+                  border
+                  outline-none text-base resize-none
                   transition-all duration-200
                   focus:border-[var(--color-primary)]
                   focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-primary)_45%,transparent)]
                 "
+                style={{
+                  borderColor: "var(--color-border)",
+                  background:
+                    "color-mix(in oklab, var(--color-bg-soft) 75%, transparent)",
+                  color: "var(--color-text)",
+                }}
               />
             </div>
 
-            {/* Mensaje de resultado */}
+            {/* Resultado */}
             {result && (
               <p
-                className={`
-                  text-center text-sm font-medium pt-2
-                  ${
-                    result === strings.alertSuccess
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                `}
+                className={`text-center text-sm font-medium pt-2 ${
+                  result === strings.alertSuccess
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
               >
                 {result}
               </p>
@@ -272,26 +263,38 @@ export default function ContactForm() {
               type="submit"
               disabled={isSubmitting}
               className="
-                mt-2
-                inline-flex items-center justify-center
-                px-6 py-3
-                rounded-lg
-                bg-[var(--color-primary)]
-                text-white font-semibold text-base
+                mt-2 inline-flex items-center justify-center
+                px-6 py-3 rounded-lg
+                font-semibold text-base
                 transition-all duration-200
-                hover:brightness-110
-                hover:-translate-y-0.5
+                hover:brightness-110 hover:-translate-y-0.5
                 focus:outline-none
                 focus:ring-2 focus:ring-[var(--color-primary)]
-                focus:ring-offset-2 focus:ring-offset-white
+                focus:ring-offset-2
                 disabled:opacity-60 disabled:cursor-not-allowed
               "
+              style={{
+                background: "var(--color-primary)",
+                color: "var(--color-bg)",
+                boxShadow:
+                  "0 4px 12px color-mix(in oklab, var(--color-primary) 40%, transparent)",
+              }}
             >
-              {isSubmitting ? "Enviando..." : strings.submit}
+              {isSubmitting
+                ? lang === "es"
+                  ? "Enviando..."
+                  : "Sending..."
+                : strings.submit}
             </button>
 
             {/* Nota de privacidad */}
-            <p className="text-xs text-gray-600/90 mt-3 text-center">
+            <p
+              className="text-xs mt-3 text-center"
+              style={{
+                color:
+                  "color-mix(in oklab, var(--color-text) 70%, transparent)",
+              }}
+            >
               {strings.privacy}
             </p>
           </form>

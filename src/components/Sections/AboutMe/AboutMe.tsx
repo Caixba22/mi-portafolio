@@ -21,7 +21,6 @@ export default function AboutMe() {
           cv: "Download CV",
         };
 
-  // Estilo del “highlight”
   const hiClass =
     "font-semibold bg-clip-text text-transparent " +
     "bg-[linear-gradient(90deg,var(--color-primary),#60a5fa)] " +
@@ -35,7 +34,8 @@ export default function AboutMe() {
         w-full
         py-20 px-4 sm:px-6 lg:px-8
         flex justify-center
-        bg-transparent text-[#1a1a1a]
+        bg-transparent
+        text-[var(--color-text)]
       "
     >
       <div
@@ -44,15 +44,19 @@ export default function AboutMe() {
           w-[min(100%,52rem)]
           mx-auto
           rounded-2xl md:rounded-3xl
-          border border-[color-mix(in_oklab,var(--color-primary)_30%,rgba(0,0,0,0.08))]
+          border
           shadow-[0_18px_45px_rgba(0,0,0,0.15)]
-          bg-[rgba(255,255,255,0.65)]
           backdrop-blur-md
           px-6 sm:px-10 py-12
           flex flex-col md:flex-row items-center gap-10 md:gap-16
           transition-all duration-300
           hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "
+        style={{
+          borderColor: "var(--color-border)",
+          background:
+            "color-mix(in oklab, var(--color-surface) 75%, transparent)",
+        }}
       >
         {/* ✨ Halo dinámico */}
         <div
@@ -70,11 +74,15 @@ export default function AboutMe() {
             className="
               relative w-[180px] h-[180px] md:w-[220px] md:h-[220px]
               rounded-full overflow-hidden
-              border-2 border-[color-mix(in_oklab,var(--color-primary)_60%,white)]
+              border-2
               shadow-[0_4px_25px_rgba(0,0,0,0.2)]
               transition-all duration-300
-              hover:shadow-[0_6px_28px_color-mix(in_oklab,var(--color-primary)_45%,rgba(0,0,0,0.25))]
+              hover:shadow-[0_6px_28px_color-mix(in_oklab,var(--color-primary)_45%,rgba(0,0,0,0.25))] 
             "
+            style={{
+              borderColor:
+                "color-mix(in oklab, var(--color-primary) 60%, var(--color-border))",
+            }}
           >
             <img
               src="/models/profile.png"
@@ -89,14 +97,19 @@ export default function AboutMe() {
             className="
               inline-flex items-center justify-center
               px-5 py-2.5 rounded-lg
-              bg-[var(--color-primary)]
-              text-white font-semibold text-base
+              font-semibold text-base
               transition-all duration-200
               hover:brightness-110 hover:-translate-y-0.5
               focus:outline-none
               focus:ring-2 focus:ring-[var(--color-primary)]
-              focus:ring-offset-2 focus:ring-offset-white
+              focus:ring-offset-2
             "
+            style={{
+              background: "var(--color-primary)",
+              color: "var(--color-bg)",
+              boxShadow:
+                "0 4px 12px color-mix(in oklab, var(--color-primary) 40%, transparent)",
+            }}
           >
             {strings.cv}
           </a>

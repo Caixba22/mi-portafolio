@@ -16,9 +16,10 @@ export default function Header({ children }: HeaderProps) {
         shadow-[0_6px_18px_rgba(0,0,0,0.1)]
       "
       style={{
-        borderColor:
-          "color-mix(in oklab, var(--color-primary) 25%, rgba(0,0,0,0.15))",
-        background: "rgba(255, 255, 255, 0.55)",
+        /* 🧠 Fondo y borde ahora se adaptan al modo */
+        borderColor: "var(--color-border)",
+        background:
+          "color-mix(in oklab, var(--color-bg-soft) 80%, transparent)",
       }}
     >
       {/* ✨ Halo dinámico detrás del header */}
@@ -38,6 +39,7 @@ export default function Header({ children }: HeaderProps) {
             href="#hero"
             className="flex items-center gap-3 shrink-0 group transition-transform duration-300 hover:scale-[1.02]"
           >
+            {/* Logo cuadrado con borde dinámico */}
             <span
               className="
                 inline-grid place-items-center w-9 h-9 rounded-lg
@@ -46,8 +48,7 @@ export default function Header({ children }: HeaderProps) {
               "
               style={{
                 color: "var(--color-primary)",
-                border:
-                  "1px solid color-mix(in oklab, var(--color-primary) 40%, rgba(0,0,0,0.15))",
+                border: "1px solid var(--color-border)",
                 background:
                   "color-mix(in oklab, var(--color-primary) 12%, transparent)",
               }}
@@ -63,26 +64,26 @@ export default function Header({ children }: HeaderProps) {
                 transition-colors duration-200
               "
               style={{
-                color:
-                  "color-mix(in oklab, #111 85%, var(--color-primary) 15%)", // mezcla con negro para contraste
+                color: "var(--color-text)",
                 textShadow:
-                  "0 1px 2px rgba(255,255,255,0.6), 0 1px 2px rgba(0,0,0,0.25)",
+                  "0 1px 2px color-mix(in oklab, var(--color-bg) 40%, transparent)",
               }}
             >
               Mi Portafolio
             </span>
           </a>
 
-          {/* 🧭 Children (menu, botones, idioma, etc.) */}
-          <div className="ml-auto flex items-center gap-2">
-            {children}
-          </div>
+          {/* 🧭 Children (menú, botones, idioma, etc.) */}
+          <div className="ml-auto flex items-center gap-2">{children}</div>
         </div>
       </div>
     </header>
   );
 }
 
+/* =============================
+   Ícono del logo
+   ============================= */
 function Logo() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>

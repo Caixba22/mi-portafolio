@@ -46,10 +46,10 @@ export default function MyProjects() {
       technologies: ["React", "Node.js", "Express", "MongoDB"],
     },
     {
-      title: lang === "es" ? "Mi Catálogo" : "Mi Catálogo",
+      title: lang === "es" ? "Mi Catálogo" : "My Catalog",
       desc:
         lang === "es"
-          ? "Página web para un pequeño negocio de ventas de distintos productos de catálogos, cuenta con una sección de gestión de productos solo para adminsitradores"
+          ? "Página web para un pequeño negocio de ventas de distintos productos de catálogos, cuenta con una sección de gestión de productos solo para administradores."
           : "Website for a small shop that sells different catalog products, with an admin-only section to manage items.",
       imgDesktop: "/pc_micatalogo.png",
       imgMobile: "/movil_micatalogo.jpg",
@@ -68,7 +68,8 @@ export default function MyProjects() {
         scroll-mt-[80px]
         w-full flex justify-center
         py-20 px-4 sm:px-6 lg:px-8
-        bg-transparent text-[#1a1a1a]
+        bg-transparent
+        text-[var(--color-text)]
       "
     >
       <div
@@ -77,15 +78,20 @@ export default function MyProjects() {
           w-[min(100%,52rem)]
           mx-auto
           rounded-2xl md:rounded-3xl
-          border border-[color-mix(in_oklab,var(--color-primary)_30%,rgba(0,0,0,0.08))]
+          border
           shadow-[0_18px_45px_rgba(0,0,0,0.15)]
-          bg-[rgba(255,255,255,0.65)]
           backdrop-blur-md
           px-6 sm:px-10 py-12
           transition-all duration-300
           hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "
+        style={{
+          borderColor: "var(--color-border)",
+          background:
+            "color-mix(in oklab, var(--color-surface) 75%, transparent)",
+        }}
       >
+        {/* ✨ Halo dinámico */}
         <div
           className="
             absolute inset-0 rounded-2xl md:rounded-3xl
@@ -94,6 +100,7 @@ export default function MyProjects() {
             pointer-events-none
           "
         />
+
         <div className="relative z-10">
           <h2
             className="
