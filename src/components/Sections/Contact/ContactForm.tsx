@@ -52,12 +52,10 @@ export default function ContactForm() {
     message: "",
   });
 
-  // En vez de guardar el texto, guardamos el tipo de resultado
   const [resultStatus, setResultStatus] = useState<ResultStatus>("");
   const [backendMessage, setBackendMessage] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ⏱️ Oculta el mensaje automáticamente a los 5 segundos
   useEffect(() => {
     if (!resultStatus) return;
 
@@ -93,7 +91,7 @@ export default function ContactForm() {
     const formDataWeb3 = new FormData(formElement);
 
     formDataWeb3.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formDataWeb3.append("subject", strings.subject); // 👈 sujeto según idioma
+    formDataWeb3.append("subject", strings.subject);
     formDataWeb3.append("from_name", formData.name);
 
     try {
@@ -124,7 +122,6 @@ export default function ContactForm() {
     }
   };
 
-  // Texto final mostrado según idioma actual + tipo de resultado
   const resultText =
     resultStatus === "success"
       ? strings.alertSuccess
@@ -135,26 +132,15 @@ export default function ContactForm() {
   return (
     <section
       id="contact"
-      className="
-        w-full
-        py-20 px-4 sm:px-6 lg:px-8
-        flex justify-center
-        bg-transparent
-        text-[var(--color-text)]
-      "
+      className="w-full px-4 sm:px-6 lg:px-8 flex justify-center bg-transparent text-[var(--color-text)]"
     >
       <div
         className="
-          relative
-          w-[min(100%,52rem)]
-          mx-auto
+          relative w-[min(100%,52rem)] mx-auto
           rounded-2xl md:rounded-3xl
-          border
-          shadow-[0_18px_45px_rgba(0,0,0,0.15)]
-          backdrop-blur-md
-          px-6 sm:px-10 py-12
-          transition-all duration-300
-          hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
+          border shadow-[0_18px_45px_rgba(0,0,0,0.15)]
+          backdrop-blur-md px-6 sm:px-10 pb-10
+          transition-all duration-300 hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "
         style={{
           borderColor: "var(--color-border)",
@@ -162,23 +148,18 @@ export default function ContactForm() {
             "color-mix(in oklab, var(--color-surface) 75%, transparent)",
         }}
       >
-        {/* ✨ Halo dinámico */}
         <div
           className="
             absolute inset-0 rounded-2xl md:rounded-3xl
-            bg-[var(--color-primary)]
-            opacity-15 blur-2xl
+            bg-[var(--color-primary)] opacity-15 blur-2xl
             pointer-events-none
           "
         />
-
-        {/* 💌 Contenido principal */}
         <div className="relative z-10">
           <h2
             className="
               text-[2rem] sm:text-[2.4rem]
-              mb-10
-              text-[var(--color-primary)]
+              mb-10 text-[var(--color-primary)]
               text-center font-semibold
             "
           >
@@ -201,8 +182,7 @@ export default function ContactForm() {
                 required
                 className="
                   px-4 py-3 rounded-lg
-                  border
-                  outline-none text-base
+                  border outline-none text-base
                   transition-all duration-200
                   focus:border-[var(--color-primary)]
                   focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-primary)_45%,transparent)]
@@ -231,8 +211,7 @@ export default function ContactForm() {
                 required
                 className="
                   px-4 py-3 rounded-lg
-                  border
-                  outline-none text-base
+                  border outline-none text-base
                   transition-all duration-200
                   focus:border-[var(--color-primary)]
                   focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-primary)_45%,transparent)]
@@ -261,9 +240,8 @@ export default function ContactForm() {
                 rows={5}
                 className="
                   px-4 py-3 rounded-lg
-                  border
-                  outline-none text-base resize-none
-                  transition-all duración-200
+                  border outline-none text-base resize-none
+                  transition-all duration-200
                   focus:border-[var(--color-primary)]
                   focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-primary)_45%,transparent)]
                 "
@@ -276,7 +254,7 @@ export default function ContactForm() {
               />
             </div>
 
-            {/* Resultado (se re-traduce según lang actual) */}
+            {/* Resultado */}
             {resultStatus !== "" && (
               <p
                 className={`text-center text-sm font-medium pt-2 ${
@@ -322,8 +300,7 @@ export default function ContactForm() {
             <p
               className="text-xs mt-3 text-center"
               style={{
-                color:
-                  "color-mix(in oklab, var(--color-text) 70%, transparent)",
+                color: "color-mix(in oklab, var(--color-text) 70%, transparent)",
               }}
             >
               {strings.privacy}

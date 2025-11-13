@@ -67,7 +67,7 @@ export default function MyProjects() {
       className="
         scroll-mt-[80px]
         w-full flex justify-center
-        py-20 px-4 sm:px-6 lg:px-8
+        px-4 sm:px-6 lg:px-8
         bg-transparent
         text-[var(--color-text)]
       "
@@ -81,7 +81,7 @@ export default function MyProjects() {
           border
           shadow-[0_18px_45px_rgba(0,0,0,0.15)]
           backdrop-blur-md
-          px-6 sm:px-10 py-12
+          px-6 sm:px-10
           transition-all duration-300
           hover:shadow-[0_22px_55px_rgba(0,0,0,0.25)]
         "

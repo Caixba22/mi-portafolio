@@ -20,19 +20,21 @@ export default function LandingPage() {
       {/* 🔝 Encabezado */}
       <Header />
 
-      {/* 🧭 Menú flotante de contraste */}
+      {/* 🧭 Menú flotante */}
       <AppMenu />
 
-      {/* 💬 Sección AboutMe */}
-      <main className="max-w-[1200px] mx-auto px-[clamp(1rem,5vw,2rem)]">
+      {/* 🧩 Contenedor principal */}
+      <main
+        className="
+          max-w-[1200px] mx-auto
+          px-[clamp(1rem,5vw,2rem)]
+          mt-[25px]     /* 👈 Espacio adecuado después del header */
+          pb-16
+          space-y-6     /* 👈 separación entre componentes */
+        "
+      >
         <AboutMe />
-      </main>
-
-      {/* 💻 Proyectos */}
-      <MyProjects />
-
-      {/* 💌 Contacto */}
-      <main className="max-w-[1200px] mx-auto px-[clamp(1rem,5vw,2rem)] pb-16">
+        <MyProjects />
         <Contact />
       </main>
     </div>
