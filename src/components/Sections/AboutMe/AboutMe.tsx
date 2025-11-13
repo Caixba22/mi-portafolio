@@ -1,4 +1,5 @@
 // src/components/Sections/AboutMe/AboutMe.tsx
+
 import { useUI } from "../../../context/uiContext";
 import Buttons from "./components/Buttons";
 
@@ -93,7 +94,8 @@ export default function AboutMe() {
           </div>
 
           {/* 👉 Nuevo “botón doble” Ver / Descargar */}
-          <Buttons pdfPath="/cv.pdf" />
+          {/* El pdf está en public/cv_MartínezCaixbaMiguelAngel.pdf → /cv_MartínezCaixbaMiguelAngel.pdf */}
+          <Buttons />
         </div>
 
         {/* 💬 Texto */}

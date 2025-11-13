@@ -10,14 +10,20 @@ export default function DownloadButton({ href, label }: DownloadButtonProps) {
       href={href}
       download
       className="
-        px-4 py-2.5
-        text-sm md:text-base font-semibold
+        px-4 sm:px-5 py-2.5
+        text-[0.78rem] sm:text-[0.84rem]
+        font-semibold
+        uppercase
+        tracking-[0.16em]
         flex items-center justify-center
-        transition-all duración-200
-        hover:brightness-110 hover:-translate-y-[1px]
+        transition-all duration-200
+        hover:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)]
+        hover:text-white
+        hover:-translate-y-[1px]
+        active:translate-y-0
         focus:outline-none
-        focus-visible:ring-2 focus-visible:ring-[var(--color-bg)]
-        focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-primary)]
+        focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]
+        focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface)]
       "
       style={{
         color: "inherit",
