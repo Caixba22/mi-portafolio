@@ -32,7 +32,7 @@ export default function MyProjects() {
       imgDesktop: "/pc_musicvisualizer.png",
       imgMobile: "/movil_musicvisualizer.jpg",
       link: "https://music-visualizer00.netlify.app/",
-      technologies: ["React", "Three.js", "TypeScript", "CSS"],
+      technologies: ["TypeScript ", "React", "ThreeJS", "CSS", "Vite"],
     },
     {
       title: lang === "es" ? "Mi Consultorio" : "Mi Consultorio",
@@ -43,7 +43,7 @@ export default function MyProjects() {
       imgDesktop: "/pc_miconsultorio.png",
       imgMobile: "/movil_miconsultorio.jpg",
       link: "https://mipaginaweb-miconsultorio.netlify.app/",
-      technologies: ["React", "Node.js", "Express", "MongoDB"],
+      technologies: ["TypeScript ", "Svelte", "Tailwind CSS", "Vite"],
     },
     {
       title: lang === "es" ? "Mi Catálogo" : "My Catalog",
@@ -54,7 +54,7 @@ export default function MyProjects() {
       imgDesktop: "/pc_micatalogo.png",
       imgMobile: "/movil_micatalogo.jpg",
       link: "https://mi-negocio-two.vercel.app/",
-      technologies: ["React", "Chart.js", "REST API", "Sass"],
+      technologies: ["TypeScript ", "React", "Chakra UI", "Vite", "Supabase"],
     },
   ];
 

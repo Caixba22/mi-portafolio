@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import FloatingButton from "./FloatingButton";
 import MenuPanel from "./MenuPanel";
 import { useUI } from "../../context/uiContext";
-import { themes } from "../../styles/theme.config"; // ✅ Usa los temas globales
-import type { ThemeName } from "../../styles/theme.config"; // ✅ Tipo centralizado
+import { themes } from "../../styles/theme.config";
+import type { ThemeName } from "../../styles/theme.config";
 
 // 💅 Estilos de Glassmorphism
 const GLASS_STYLE_MENU: React.CSSProperties = {
@@ -50,8 +50,18 @@ export default function AppMenu() {
   const labels = useMemo(
     () =>
       lang === "es"
-        ? { about: "Sobre mí", projects: "Proyectos", contact: "Contacto" }
-        : { about: "About", projects: "Projects", contact: "Contact" },
+        ? {
+            navTitle: "Navegación",
+            about: "Sobre mí",
+            projects: "Proyectos",
+            contact: "Contacto",
+          }
+        : {
+            navTitle: "Navigation",
+            about: "About",
+            projects: "Projects",
+            contact: "Contact",
+          },
     [lang]
   );
 
@@ -90,9 +100,9 @@ export default function AppMenu() {
         onGoTo={goTo}
         lang={lang}
         setLang={setLang}
-        theme={theme as ThemeName} // ✅ Usa el tipo global
+        theme={theme as ThemeName}
         setTheme={setTheme as (t: ThemeName) => void}
-        themes={themes} // ✅ Lista global de temas
+        themes={themes}
         activeSection={activeSection}
       />
     </div>

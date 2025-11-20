@@ -8,6 +8,25 @@ import type { ThemeName } from "../../styles/theme.config";
 export default function MenuPrefs() {
   const { lang, setLang, theme, setTheme, mode, setMode } = useUI();
 
+  const strings =
+    lang === "es"
+      ? {
+          prefs: "Preferencias",
+          language: "Idioma",
+          mode: "Modo",
+          theme: "Tema",
+          lightMode: "Modo claro",
+          darkMode: "Modo oscuro",
+        }
+      : {
+          prefs: "Preferences",
+          language: "Language",
+          mode: "Mode",
+          theme: "Theme",
+          lightMode: "Light mode",
+          darkMode: "Dark mode",
+        };
+
   return (
     <>
       <p
@@ -16,7 +35,7 @@ export default function MenuPrefs() {
           color: "color-mix(in oklab, var(--color-text) 45%, transparent)",
         }}
       >
-        Preferencias
+        {strings.prefs}
       </p>
 
       <div className="px-3 flex flex-col gap-3 mb-3">
@@ -26,12 +45,19 @@ export default function MenuPrefs() {
             className="text-[10px] uppercase tracking-wide opacity-60"
             style={{ color: "var(--color-text)" }}
           >
-            Idioma
+            {strings.language}
           </span>
           <div className="flex gap-1">
-            <LangButton label="ES" active={lang === "es"} onClick={() => setLang("es")} />
-            <LangButton label="EN" active={lang === "en"} onClick={() => setLang("en")} />
-            {/* Ejemplo: si luego agregas más idiomas, aquí caben fácilmente */}
+            <LangButton
+              label="ES"
+              active={lang === "es"}
+              onClick={() => setLang("es")}
+            />
+            <LangButton
+              label="EN"
+              active={lang === "en"}
+              onClick={() => setLang("en")}
+            />
           </div>
         </div>
 
@@ -41,11 +67,21 @@ export default function MenuPrefs() {
             className="text-[10px] uppercase tracking-wide opacity-60"
             style={{ color: "var(--color-text)" }}
           >
-            Modo
+            {strings.mode}
           </span>
           <div className="flex gap-1">
-            <ModeButton label="☀️" active={mode === "light"} onClick={() => setMode("light")} />
-            <ModeButton label="🌙" active={mode === "dark"} onClick={() => setMode("dark")} />
+            <ModeButton
+              label="☀️"
+              active={mode === "light"}
+              onClick={() => setMode("light")}
+              title={strings.lightMode}
+            />
+            <ModeButton
+              label="🌙"
+              active={mode === "dark"}
+              onClick={() => setMode("dark")}
+              title={strings.darkMode}
+            />
           </div>
         </div>
 
@@ -55,7 +91,7 @@ export default function MenuPrefs() {
             className="text-[10px] uppercase tracking-wide opacity-60"
             style={{ color: "var(--color-text)" }}
           >
-            Tema
+            {strings.theme}
           </span>
           <div className="flex-shrink-0">
             <ThemeSelect theme={theme} setTheme={setTheme} themes={themes} />
@@ -102,10 +138,12 @@ function ModeButton({
   label,
   active,
   onClick,
+  title,
 }: {
   label: string;
   active: boolean;
   onClick: () => void;
+  title: string;
 }) {
   return (
     <button
@@ -118,7 +156,7 @@ function ModeButton({
           : "color-mix(in oklab, var(--color-bg-soft) 35%, transparent)",
         color: "var(--color-text)",
       }}
-      title={label === "☀️" ? "Modo claro" : "Modo oscuro"}
+      title={title}
     >
       {label}
     </button>
@@ -160,7 +198,8 @@ function ThemeSelect({
         onClick={handleToggle}
         className="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-xl border transition relative z-[10]"
         style={{
-          background: "color-mix(in oklab, var(--color-bg-soft) 60%, transparent)",
+          background:
+            "color-mix(in oklab, var(--color-bg-soft) 60%, transparent)",
           border: "1px solid var(--color-border)",
           color: "var(--color-text)",
         }}
@@ -177,7 +216,8 @@ function ThemeSelect({
         <span className="ml-auto text-[10px] opacity-55">▼</span>
       </button>
 
-      {open && buttonRect &&
+      {open &&
+        buttonRect &&
         createPortal(
           <div
             className={`fixed z-[2000] rounded-xl border shadow-lg overflow-auto max-h-[50vh] 
@@ -204,7 +244,8 @@ function ThemeSelect({
                 }}
                 className="w-full text-left px-3 py-2 text-xs transition hover:bg-[color-mix(in_oklab,var(--color-primary)_25%,transparent)]"
                 style={{
-                  color: t === theme ? "var(--color-primary)" : "var(--color-text)",
+                  color:
+                    t === theme ? "var(--color-primary)" : "var(--color-text)",
                 }}
               >
                 {t[0].toUpperCase() + t.slice(1)}

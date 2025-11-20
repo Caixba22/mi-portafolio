@@ -2,6 +2,7 @@
 import React from "react";
 
 type Labels = {
+  navTitle: string;
   about: string;
   projects: string;
   contact: string;
@@ -30,7 +31,7 @@ export default function MenuNav({
           color: "color-mix(in oklab, var(--color-text) 55%, transparent)",
         }}
       >
-        Navegación
+        {labels.navTitle}
       </p>
 
       <nav className="px-3 flex flex-col">

@@ -1,9 +1,21 @@
-
-//src/components/AppMenu/MenuHeader.tsx
-
+// src/components/AppMenu/MenuHeader.tsx
 import React from "react";
+import { useUI } from "../../context/uiContext";
 
 export default function MenuHeader() {
+  const { lang } = useUI();
+
+  const strings =
+    lang === "es"
+      ? {
+          title: "Panel de control",
+          subtitle: "Accesos rápidos, idioma y tema",
+        }
+      : {
+          title: "Control panel",
+          subtitle: "Quick access, language & theme",
+        };
+
   return (
     <header
       className="flex items-center gap-3 px-4 pt-4 pb-3 relative overflow-hidden"
@@ -41,7 +53,7 @@ export default function MenuHeader() {
               "0 0 6px color-mix(in oklab, var(--color-primary) 40%, transparent)",
           }}
         >
-          Panel de Control
+          {strings.title}
         </p>
         <p
           className="text-[11px] font-medium opacity-80"
@@ -49,7 +61,7 @@ export default function MenuHeader() {
             color: "color-mix(in oklab, var(--color-text) 75%, transparent)",
           }}
         >
-          Accesos rápidos, idioma y tema
+          {strings.subtitle}
         </p>
       </div>
 

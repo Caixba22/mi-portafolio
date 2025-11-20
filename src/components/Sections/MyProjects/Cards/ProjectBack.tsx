@@ -1,12 +1,15 @@
 // src/components/Sections/MyProjects/Cards/ProjectBack.tsx
 
 import React from "react";
+import { useUI } from "../../../../context/uiContext"; // <-- IMPORTANTE
 
 interface Props {
   technologies: string[];
 }
 
 export default function ProjectBack({ technologies }: Props) {
+  const { lang } = useUI(); // <-- obtenemos el idioma
+
   return (
     <div
       className="
@@ -17,7 +20,7 @@ export default function ProjectBack({ technologies }: Props) {
       "
     >
       <h3 className="text-[var(--color-primary)] text-base font-semibold tracking-wide">
-        Technologies
+        {lang === "es" ? "Tecnologías" : "Technologies"}
       </h3>
 
       <ul

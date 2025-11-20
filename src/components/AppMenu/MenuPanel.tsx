@@ -4,12 +4,13 @@ import MenuHeader from "./MenuHeader";
 import MenuNav from "./MenuNav";
 import MenuPrefs from "./MenuPrefs";
 import MenuFooter from "./MenuFooter";
-import { useUI } from "../../context/uiContext"; // 👈 para leer el modo actual
+import { useUI } from "../../context/uiContext";
 
 import type { Lang } from "../../context/uiContext";
 import type { ThemeName } from "../../styles/theme.config";
 
 type Labels = {
+  navTitle: string;
   about: string;
   projects: string;
   contact: string;
@@ -44,8 +45,8 @@ export default function MenuPanel({
 
   if (!open) return null;
 
-  // 👇 Creamos el modo contrario al global
   const contrastMode = mode === "light" ? "dark" : "light";
+  const ariaLabel = lang === "es" ? "Menú flotante" : "Floating menu";
 
   return (
     <>
@@ -59,25 +60,30 @@ export default function MenuPanel({
       {/* Panel flotante con modo inverso */}
       <aside
         className="fixed bottom-[5rem] right-5 z-[999] w-[280px] rounded-3xl overflow-hidden animate-slideUp"
-        data-mode={contrastMode} // 👈 aquí está la clave: usamos el modo inverso
+        data-mode={contrastMode}
         style={{
           border:
             "1px solid color-mix(in oklab, var(--color-border) 80%, transparent)",
           background:
             "radial-gradient(circle at top, color-mix(in oklab, var(--color-surface) 70%, transparent), color-mix(in oklab, var(--color-bg) 95%, transparent))",
           backdropFilter: "blur(14px)",
-          boxShadow: "0 12px 30px rgba(0,0,0,.35), 0 0 20px rgba(0,0,0,.12)",
+          boxShadow:
+            "0 12px 30px rgba(0,0,0,.35), 0 0 20px rgba(0,0,0,.12)",
           color: "var(--color-text)",
           transition: "all 0.3s ease",
         }}
         role="menu"
-        aria-label="Menú flotante"
+        aria-label={ariaLabel}
       >
         <MenuHeader />
 
         <div className="py-3" style={{ color: "var(--color-text)" }}>
           {/* Navegación */}
-          <MenuNav labels={labels} onGoTo={onGoTo} activeSection={activeSection} />
+          <MenuNav
+            labels={labels}
+            onGoTo={onGoTo}
+            activeSection={activeSection}
+          />
 
           {/* Separador */}
           <div
