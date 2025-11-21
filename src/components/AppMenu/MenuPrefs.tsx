@@ -1,5 +1,5 @@
 // src/components/AppMenu/MenuPrefs.tsx
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useUI } from "../../context/uiContext";
 import { themes } from "../../styles/theme.config";

@@ -10,15 +10,15 @@ export default function AboutMe() {
     lang === "es"
       ? {
           title: "Hola, soy",
-          name: "Tu Nombre",
+          name: "Miguel Caixba",
           desc:
-            "Estudiante de Ingeniería de Software en los últimos semestres. Busco un lugar para realizar mis prácticas profesionales, aportar al equipo y seguir aprendiendo. Me gusta diseñar interfaces claras y responsivas; puedo trabajar sin problema en cualquier fase del ciclo de vida del software.",
+            "Estudiante de Ingeniería de Software en los últimos semestres, recientemente enfocado en el desarrollo web. Disfruto especialmente de la parte visual y del desarrollo frontend, aunque también comprendo muy bien la lógica y la arquitectura de backend, lo que me permite participar en todo el ciclo de vida del software. En mi tiempo libre me gusta escuchar música, hacer ejercicio y jugar videojuegos. Más que un estudiante, un pensador.",
         }
       : {
           title: "Hi, I'm",
-          name: "Your Name",
+          name: "Miguel Caixba",
           desc:
-            "Software Engineering student in my final semesters. I'm looking for an internship to contribute to the team and keep learning. I design clear, responsive UIs and I'm comfortable working across any stage of the software lifecycle.",
+            "Software Engineering student in my final semesters, recently focused on web development. I especially enjoy the visual side and frontend development, but I also have a strong understanding of backend logic and architecture, which allows me to contribute across the entire software development lifecycle. In my free time I enjoy listening to music, working out, and playing video games. More than a student, a thinker.",
         };
 
   const hiClass =
@@ -110,20 +110,24 @@ export default function AboutMe() {
               <>
                 Estudiante de{" "}
                 <span className={hiClass}>Ingeniería de Software</span> en los
-                últimos semestres. Busco un lugar para realizar mis prácticas
-                profesionales, aportar al equipo y seguir aprendiendo. Me gusta
-                diseñar interfaces claras y responsivas; puedo trabajar sin
-                problema en cualquier fase del ciclo de vida del software.
+                últimos semestres, recientemente enfocado en el desarrollo web.
+                Disfruto especialmente de la parte visual y del desarrollo
+                frontend, aunque también comprendo muy bien la lógica y la
+                arquitectura de backend, lo que me permite participar en todo el
+                ciclo de vida del software. En mi tiempo libre me gusta escuchar
+                música, hacer ejercicio y jugar videojuegos.
                 <br />
                 Más que un estudiante, un pensador.
               </>
             ) : (
               <>
                 <span className={hiClass}>Software Engineering</span> student in
-                my final semesters. I'm looking for an internship to contribute
-                to the team and keep learning. I design clear, responsive UIs
-                and I'm comfortable working across any stage of the software
-                lifecycle.
+                my final semesters, recently focused on web development. I
+                especially enjoy the visual side and frontend development, but I
+                also have a strong understanding of backend logic and
+                architecture, which allows me to contribute across the entire
+                software development lifecycle. In my free time I enjoy
+                listening to music, working out, and playing video games.
                 <br />
                 More than a student, a thinker.
               </>

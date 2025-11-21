@@ -1,6 +1,5 @@
 // src/components/Sections/MyProjects/Cards/ProjectBack.tsx
 
-import React from "react";
 import { useUI } from "../../../../context/uiContext"; // <-- IMPORTANTE
 
 interface Props {

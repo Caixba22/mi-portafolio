@@ -1,5 +1,5 @@
 // src/components/Sections/MyProjects.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUI } from "../../../context/uiContext";
 import ProjectReel from "./ProjectReel/ProjectReel";
 

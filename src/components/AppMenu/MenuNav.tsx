@@ -1,5 +1,4 @@
 // src/components/AppMenu/MenuNav.tsx
-import React from "react";
 
 type Labels = {
   navTitle: string;

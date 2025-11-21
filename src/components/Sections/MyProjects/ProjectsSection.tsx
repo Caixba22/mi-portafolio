@@ -1,5 +1,5 @@
 // src/components/Sections/ProjectsSection.tsx
-import React from "react";
+
 import { useUI } from "../../../context/uiContext";
 import ProjectCard from "./Cards/ProjectCard";
 

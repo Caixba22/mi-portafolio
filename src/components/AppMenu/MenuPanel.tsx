@@ -1,5 +1,5 @@
 // src/components/AppMenu/MenuPanel.tsx
-import React from "react";
+
 import MenuHeader from "./MenuHeader";
 import MenuNav from "./MenuNav";
 import MenuPrefs from "./MenuPrefs";
@@ -35,10 +35,6 @@ export default function MenuPanel({
   labels,
   onGoTo,
   lang,
-  setLang,
-  theme,
-  setTheme,
-  themes,
   activeSection,
 }: MenuPanelProps) {
   const { mode } = useUI(); // 🧠 modo global (light / dark)

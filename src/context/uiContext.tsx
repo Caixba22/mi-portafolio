@@ -1,6 +1,5 @@
 // src/context/uiContext.tsx
 import { createContext, useContext, useEffect, useState } from "react";
-import { themes } from "../styles/theme.config";
 import type { ThemeName } from "../styles/theme.config";
 
 

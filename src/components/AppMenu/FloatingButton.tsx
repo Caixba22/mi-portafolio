@@ -1,7 +1,5 @@
 //src/components/AppMenu/FloatingButton.tsx
 
-import React from "react";
-
 export default function FloatingButton({
   open,
   onToggle,

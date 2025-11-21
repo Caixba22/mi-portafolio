@@ -1,6 +1,6 @@
 // src/components/3D/Arrow3D.tsx
 import { useFrame } from "@react-three/fiber";
-import React, { useRef, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { Edges } from "@react-three/drei";
 

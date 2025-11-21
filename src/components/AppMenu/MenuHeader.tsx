@@ -1,5 +1,4 @@
 // src/components/AppMenu/MenuHeader.tsx
-import React from "react";
 import { useUI } from "../../context/uiContext";
 
 export default function MenuHeader() {

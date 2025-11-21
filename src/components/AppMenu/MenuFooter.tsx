@@ -1,5 +1,4 @@
 // src/components/AppMenu/MenuFooter.tsx
-import React from "react";
 import { useUI } from "../../context/uiContext";
 
 export default function MenuFooter() {
