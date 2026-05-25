@@ -24,6 +24,24 @@ export default function MyProjects() {
 
   const projects = [
     {
+      title: "VertexNodes",
+      desc:
+        lang === "es"
+        ? "Plataforma interactiva que permite observar cómo funciona una selección de algoritmos y estructuras de datos mediante visualizaciones 3D paso a paso."
+        : "Interactive platform that lets users observe how a selection of algorithms and data structures work through step-by-step 3D visualizations.",
+        imgDesktop: "/pc_vertexnodes.png", 
+        imgMobile: "/movil_vertexnodes.jpg", 
+        link: "https://vertexnodes.netlify.app/", 
+        technologies: [
+          "TypeScript", 
+          "React", 
+          "Three.js", 
+          "React Three Fiber", 
+          "Zustand", 
+          "Tailwind CS"
+        ],
+    },
+    {
       title: lang === "es" ? "Music Visualizer 0.0" : "Music Visualizer 0.0",
       desc:
         lang === "es"
@@ -46,7 +64,7 @@ export default function MyProjects() {
       technologies: ["TypeScript ", "Svelte", "Tailwind CSS", "Vite"],
     },
     {
-      title: lang === "es" ? "Mi Catálogo" : "My Catalog",
+      title: lang === "es" ? "Mi Catálogo" : "Mi Catálogo",
       desc:
         lang === "es"
           ? "Página web para un pequeño negocio de ventas de distintos productos de catálogos, cuenta con una sección de gestión de productos solo para administradores."
@@ -56,6 +74,9 @@ export default function MyProjects() {
       link: "https://mi-negocio-two.vercel.app/",
       technologies: ["TypeScript ", "React", "Chakra UI", "Vite", "Supabase"],
     },
+
+    
+    
   ];
 
   const heading =
